@@ -3,7 +3,8 @@ import ListGroup from 'react-bootstrap/ListGroup';
 
 const Pantry:FC = () => {
   return (
-    <div>Pantry page
+    <div>
+      Pantry page
 
       <ListGroup>
         <ListGroup.Item>Item in the list</ListGroup.Item>
