@@ -1,6 +1,6 @@
-import React, { FC } from 'react';
+import React from 'react';
 
-const Saved:FC = () => {
+const Saved = () => {
   return (
     <div>
       Saved Recipes Page

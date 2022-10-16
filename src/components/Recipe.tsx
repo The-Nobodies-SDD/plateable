@@ -1,6 +1,6 @@
-import React, { FC } from 'react';
+import React from 'react';
 
-const Recipe:FC = () => {
+const Recipe = () => {
   return (
     <div>
       Recipe Page

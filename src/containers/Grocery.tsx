@@ -1,7 +1,7 @@
-import React, { FC } from 'react';
+import React from 'react';
 import ListGroup from 'react-bootstrap/ListGroup';
 
-const Grocery:FC = () => {
+const Grocery = () => {
   return (
     <div>
       Grocery page

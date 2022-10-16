@@ -1,7 +1,7 @@
-import React, { FC } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Nav:FC = () => {
+const Nav = () => {
   return (
     <div>
       <Link to="/">Home</Link>
