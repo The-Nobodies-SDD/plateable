@@ -4,6 +4,7 @@ import { Routes, Route } from 'react-router-dom';
 import Login from './containers/Login';
 import Recipes from './containers/Recipes';
 import Saved from './containers/Saved';
+import Landing from './containers/Landing';
 
 import Nav from './components/Nav';
 
@@ -22,6 +23,7 @@ function App() {
         <Route path="/grocery" element={<List type="grocery"/>}/>
         <Route path="/recipes" element={<Recipes />}/>
         <Route path="/saved" element={<Saved />}/>
+        <Route path="/landing" element={<Landing />}/>
       </Routes>
 
     </div>
