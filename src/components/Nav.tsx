@@ -1,16 +1,44 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Nav from 'react-bootstrap/Nav';
 
-const Nav = () => {
+const NavBar = () => {
   return (
     <div>
-      <Link to="/">Home</Link>
-      <Link to="/pantry">Pantry</Link>
-      <Link to="/grocery">Grocery</Link>
+
+      <Nav variant="tabs" defaultActiveKey="/pantry">
+        <Nav.Item>
+          <Nav.Link>
+            <Link to="/">Home</Link>
+          </Nav.Link>
+        </Nav.Item>
+
+        <Nav.Item>
+          <Nav.Link>
+            <Link to="/pantry">Pantry</Link>
+          </Nav.Link>
+        </Nav.Item>
+
+        <Nav.Item>
+          <Nav.Link>
+            <Link to="/grocery">Grocery</Link>
+          </Nav.Link>
+        </Nav.Item>
+
+        <Nav.Item>
+          <Nav.Link>
       <Link to="/recipes">Recipe Search</Link>
+          </Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link>
       <Link to="/saved">Saved Recipes</Link>
+          </Nav.Link>
+        </Nav.Item>
+
+      </Nav>
     </div>
   )
 };
 
-export default Nav;
+export default NavBar;
