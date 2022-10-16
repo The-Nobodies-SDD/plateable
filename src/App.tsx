@@ -8,7 +8,6 @@ import Landing from './containers/Landing';
 
 import Nav from './components/Nav';
 
-import './App.scss';
 import List from './containers/List';
 
 function App() {
