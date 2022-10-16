@@ -1,10 +1,19 @@
 import React from 'react';
 import ListGroup from 'react-bootstrap/ListGroup';
 
-const Grocery = () => {
+
+type ListProps = {
+  type: string
+}
+const List = ({type}:ListProps) => {
+
+  const handleAddItem = () => {
+
+  }
   return (
     <div>
-      Grocery page
+      {type} page
+
 
       <ListGroup>
         <ListGroup.Item>Item in the list</ListGroup.Item>
@@ -16,4 +25,4 @@ const Grocery = () => {
   )
 }
 
-export default Grocery;
+export default List;
