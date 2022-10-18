@@ -13,17 +13,16 @@ import List from './containers/List';
 function App() {
   return (
     <div className="App">
-
       <Nav />
       
       <Routes>
-        <Route path="/" element={<Login />}/>
+        <Route path="/" element={<List type="pantry"/>}/>
         <Route path="/pantry" element={<List type="pantry"/>}/>
         <Route path="/grocery" element={<List type="grocery"/>}/>
         <Route path="/recipes" element={<Recipes />}/>
         <Route path="/saved" element={<Saved />}/>
+        <Route path="/login" element={<Login/>}/>
       </Routes>
-
     </div>
   );
 }
