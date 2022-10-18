@@ -6,6 +6,7 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
+import ListItem from '../components/ListItem'
 
 
 
@@ -40,7 +41,7 @@ const List = ({type}:ListProps) => {
             </InputGroup>
           </Col>
           
-          <Col md="auto">
+          <Col xs="auto" sm="auto" md="auto" lg="auto">
             <Button variant="dark">Add New Ingredient</Button>
           </Col>
         </Row>
@@ -49,12 +50,10 @@ const List = ({type}:ListProps) => {
         </Row>
         <Row>
           <ListGroup>
-            <ListGroup.Item>
-              <div>Eggs</div> 
-            </ListGroup.Item>
-            <ListGroup.Item>Item in the list</ListGroup.Item>
-            <ListGroup.Item>Item in the list</ListGroup.Item>
-            <ListGroup.Item>Item in the list</ListGroup.Item>
+            <ListGroup.Item><ListItem /></ListGroup.Item>
+            <ListGroup.Item><ListItem /></ListGroup.Item>
+            <ListGroup.Item><ListItem /></ListGroup.Item>
+            <ListGroup.Item><ListItem /></ListGroup.Item>
           </ListGroup>
         </Row>
 
