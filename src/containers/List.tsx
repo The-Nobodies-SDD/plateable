@@ -15,6 +15,16 @@ type ListProps = {
 }
 const List = ({type}:ListProps) => {
 
+  const ingredients = [{
+    name: "Eggs",
+    unit: "count",
+    num: 12
+  }, {
+    name: "Flour",
+    unit: "cups",
+    num: 6
+  }]
+
   const handleAddItem = () => {
 
   }
@@ -42,7 +52,7 @@ const List = ({type}:ListProps) => {
           </Col>
           
           <Col xs="auto" sm="auto" md="auto" lg="auto">
-            <Button variant="dark">Add New Ingredient</Button>
+            <Button variant="dark">Add New Item</Button>
           </Col>
         </Row>
         <Row>
@@ -50,10 +60,11 @@ const List = ({type}:ListProps) => {
         </Row>
         <Row>
           <ListGroup>
-            <ListGroup.Item><ListItem /></ListGroup.Item>
-            <ListGroup.Item><ListItem /></ListGroup.Item>
-            <ListGroup.Item><ListItem /></ListGroup.Item>
-            <ListGroup.Item><ListItem /></ListGroup.Item>
+            {
+              ingredients.map( ingredient => (
+                <ListGroup.Item><ListItem info={ingredient} /></ListGroup.Item>
+              ))
+            }
           </ListGroup>
         </Row>
 
