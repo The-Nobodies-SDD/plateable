@@ -18,12 +18,14 @@ const List = ({type}:ListProps) => {
 
   }
   return (
-    <div>
+    <div style={{maxWidth:750, margin:"auto"}}>
       <Container>
         <Row><div style={{textAlign: 'center', paddingTop:100, paddingBottom:100}}><h1 >{type} Contents</h1></div></Row>
 
         {/* Bug when shrunk down to mobile size:
-          the search bar take up the entire space. */}
+          the search bar take up the entire space. 
+          
+          - Ask stefan for setting max width*/}
         <Row>
           <Col >
             <InputGroup className="mb-3">
