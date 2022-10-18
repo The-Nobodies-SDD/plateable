@@ -1,5 +1,5 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 
 import Login from './containers/Login';
 import Recipes from './containers/Recipes';
@@ -9,14 +9,27 @@ import Nav from './components/Nav';
 
 import './App.scss';
 import List from './containers/List';
+import Recipe from './components/Recipe';
 
 function App() {
+
+  const [isLoggedIn, setIsLoggedIn] = useState<Boolean>(true);
+  const navigate = useNavigate();
+  const path = useLocation();
+
+  useEffect(() => {
+    if (!isLoggedIn && path.pathname !== "/" && path.pathname !== "/login") {
+      navigate("/login")
+    }
+  }, [])
+
+
   return (
     <div className="App">
-      <Nav />
-      
+      {isLoggedIn ? <Nav /> : ''}
+
       <Routes>
-        <Route path="/" element={<List type="pantry"/>}/>
+        <Route path="/" element={isLoggedIn ? <List type="pantry"/>: <Recipe/>}/>
         <Route path="/pantry" element={<List type="pantry"/>}/>
         <Route path="/grocery" element={<List type="grocery"/>}/>
         <Route path="/recipes" element={<Recipes />}/>
