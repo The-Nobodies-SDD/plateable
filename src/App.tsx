@@ -18,8 +18,8 @@ function App() {
       
       <Routes>
         <Route path="/" element={<Login />}/>
-        <Route path="/pantry" element={<List type="pantry"/>}/>
-        <Route path="/grocery" element={<List type="grocery"/>}/>
+        <Route path="/pantry" element={<List type="Pantry"/>}/>
+        <Route path="/grocery" element={<List type="Grocery"/>}/>
         <Route path="/recipes" element={<Recipes />}/>
         <Route path="/saved" element={<Saved />}/>
       </Routes>
