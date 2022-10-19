@@ -17,18 +17,23 @@ type ListItemProps = {
 
 const ListItem = ({info}:ListItemProps) => {
 
-
+	// keeps track of the type of unit for this item
 	const [itemUnit, setItemUnit] = useState<string | null>(info.unit)
+	
+	// keeps track of the nums of units for this item
 	const [itemNum, setItemNum] = useState(info.num)
 
+	// current options for units
 	const units = ["lbs", "oz", "fl. oz", "count", "tbs", "tsp", "cups"]
 
+	// takes in the event key from the select dropdown and sets the unit state
 	const handleUnitChange = (eventKey: string | null) => {
 		setItemUnit(eventKey)
 	}
 
-	const handleCountChange = (event: React.MouseEvent<HTMLButtonElement>) => {
-		setItemNum(itemNum + parseInt(event.currentTarget.value))
+	// takes in +1 or -1 to change the count state when a button is pressed
+	const handleCountChange = (amount:number) => {
+		setItemNum(prev => prev + amount)
 	}
 
 	return (
@@ -43,6 +48,7 @@ const ListItem = ({info}:ListItemProps) => {
 							<Dropdown.Toggle variant="outline-dark"> {itemUnit} </Dropdown.Toggle>
 							<Dropdown.Menu>
 								{
+									// loops through each item in the units array and displays it as a dropdown item
 									units.map( u => <Dropdown.Item eventKey={u}> {u} </Dropdown.Item>)
 								}
 							</Dropdown.Menu>
@@ -51,7 +57,7 @@ const ListItem = ({info}:ListItemProps) => {
 
 					{/* <Container fluid> */}
 						<Col xs="auto" sm="auto" md="auto" lg="auto"> 
-							<Button variant="outline-dark" onClick={handleCountChange} value={-1}>-</Button> 
+							<Button variant="outline-dark" onClick={() => handleCountChange(-1)}>-</Button> 
 						</Col>
 						
 						<Col xs={2} sm={2} md={2} lg={2}> 
@@ -61,7 +67,7 @@ const ListItem = ({info}:ListItemProps) => {
 						</Col>
 
 						<Col xs="auto" sm="auto" md="auto" lg="auto">
-							<Button variant="outline-dark" onClick={handleCountChange} value={1}>+</Button>
+							<Button variant="outline-dark" onClick={() => handleCountChange(1)}>+</Button>
 						</Col>
 						
 					{/* </Container> */}
