@@ -7,9 +7,6 @@ type ListProps = {
 }
 const List = ({type}:ListProps) => {
 
-  const handleAddItem = () => {
-
-  }
   return (
     <div>
       {type} page
