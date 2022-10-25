@@ -1,5 +1,6 @@
 import React from 'react';
 import image from '../assets/landing.jpg'
+import Button from 'react-bootstrap/Button';
 import { Link } from "react-router-dom"
 //import './styles/containers/landing.scss'
 
@@ -12,11 +13,11 @@ const style = {
 function SignUpButton() {
   
   return <Link to="/signup">
-    <button style={{ backgroundColor: 'black', color: 'white'}}>
+    <Button variant="outline-dark">
       <span style={{ fontSize: "20px" }}>
         Sign Up
       </span>
-    </button>
+    </Button>
   </Link>
 }
 
