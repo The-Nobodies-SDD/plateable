@@ -9,6 +9,7 @@ import Nav from './components/Nav';
 
 import List from './containers/List';
 import Recipe from './components/Recipe';
+import Search from './containers/Search';
 
 function App() {
 
@@ -32,7 +33,7 @@ function App() {
         <Route path="/" element={isLoggedIn ? <List type="pantry"/>: <Recipe/>}/>
         <Route path="/pantry" element={<List type="pantry"/>}/>
         <Route path="/grocery" element={<List type="grocery"/>}/>
-        <Route path="/recipes" element={<Recipes />}/>
+        <Route path="/recipes" element={<Search />}/>
         <Route path="/saved" element={<Saved />}/>
         <Route path="/login" element={<Login/>}/>
       </Routes>
