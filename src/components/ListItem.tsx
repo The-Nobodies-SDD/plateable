@@ -18,13 +18,13 @@ type ListItemProps = {
 const ListItem = ({info}:ListItemProps) => {
 
 	// keeps track of the type of unit for this item
-	const [itemUnit, setItemUnit] = useState<string | null>(info.unit)
+	const [itemUnit, setItemUnit] = useState<string | null>(info.unit);
 	
 	// keeps track of the nums of units for this item
-	const [itemNum, setItemNum] = useState(info.num)
+	const [itemNum, setItemNum] = useState(info.num);
 
 	// current options for units
-	const units = ["lbs", "oz", "fl. oz", "count", "tbs", "tsp", "cups"]
+	const units = ["count", "lbs", "oz", "fl. oz", "tbs", "tsp", "cups"];
 
 	// takes in the event key from the select dropdown and sets the unit state
 	const handleUnitChange = (eventKey: string | null) => {
@@ -34,6 +34,10 @@ const ListItem = ({info}:ListItemProps) => {
 	// takes in +1 or -1 to change the count state when a button is pressed
 	const handleCountChange = (amount:number) => {
 		setItemNum(prev => prev + amount)
+	}
+
+	const handleNumChange = (amount:string) => {
+		setItemNum(Number(amount))
 	}
 
 	return (
@@ -62,7 +66,7 @@ const ListItem = ({info}:ListItemProps) => {
 						
 						<Col xs={2} sm={2} md={2} lg={2}> 
 							<InputGroup > {/* fix length, also check the xs, sm, md, lg*/}
-								<Form.Control value={itemNum} aria-label="num" />
+								<Form.Control value={itemNum} aria-label="num" type="number" onChange={e => handleNumChange(e.target.value)} />
 							</InputGroup>
 						</Col>
 
