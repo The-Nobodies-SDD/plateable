@@ -31,7 +31,7 @@ const List = ({type}:ListProps) => {
   // const handleAddItem = () => {
 
   // }
-  
+
   return (
     <Container>
       <Row>
