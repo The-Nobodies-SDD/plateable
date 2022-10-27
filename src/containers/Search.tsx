@@ -4,6 +4,8 @@ import InputGroup from 'react-bootstrap/esm/InputGroup';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/esm/Row';
 import Col from 'react-bootstrap/esm/Col';
+import Container from 'react-bootstrap/esm/Container';
+import Stack from 'react-bootstrap/esm/Stack';
 
 const Search = () => {
 
@@ -13,19 +15,35 @@ const Search = () => {
     searchRef.current &&  searchRef.current?.value.length ? console.log(searchRef.current.value) : alert("nothing input")
   } 
 
+  const generateHandler = () => {
+    console.log("generate")
+  }
+
   return (
-    <div>
+    <Stack direction="vertical" className="col-md-5 mx-auto" gap={3}>
       <Form>
-        <Form.Control
-          ref={searchRef}
-          placeholder="Search for a recipe"
-        />
-        <Button variant="dark" onClick={searchHandler}>Search</Button>
+        <Stack direction="horizontal" gap={3} className="justify-content-center align-items-end">
+          <div>
+            <Form.Label htmlFor="searchInput">
+              Search for a recipe
+            </Form.Label>
+            <Form.Control
+              ref={searchRef}
+              placeholder="Enter recipe name"
+              id="searchInput"
+            />
+          </div>
+          <Button variant="dark" onClick={searchHandler}>Search</Button>
+        </Stack>
       </Form>
-      <Form>
-        <Button variant="dark">Generate</Button>
+   
+      <Form className="justify-content-center">
+        <Button variant="dark" onClick={generateHandler}>Generate</Button>
       </Form>
-    </div>
+
+      <p>List of recipes</p>
+    </Stack>
+
   )
 }
 
