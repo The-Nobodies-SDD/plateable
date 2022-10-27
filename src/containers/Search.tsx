@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import Button from 'react-bootstrap/esm/Button';
 import InputGroup from 'react-bootstrap/esm/InputGroup';
 import Form from 'react-bootstrap/Form';
@@ -6,17 +6,51 @@ import Row from 'react-bootstrap/esm/Row';
 import Col from 'react-bootstrap/esm/Col';
 import Container from 'react-bootstrap/esm/Container';
 import Stack from 'react-bootstrap/esm/Stack';
+import Recipes from './Recipes';
+import axios from 'axios';
 
 const Search = () => {
 
-  const searchRef = useRef<HTMLInputElement>(null)
+  type RecipeInfo = {
+    idMeal: string,
+    strMeal: string,
+    strMealThumb: string
+  }
+
+
+  const searchRef = useRef<HTMLInputElement>(null);
+  const [recipes, setRecipes] = useState<RecipeInfo[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const searchHandler = () => {
     searchRef.current &&  searchRef.current?.value.length ? console.log(searchRef.current.value) : alert("nothing input")
   } 
 
   const generateHandler = () => {
-    console.log("generate")
+    setLoading(true)
+
+    const ingredients = ["chicken_breast", "salt"]
+    const ingJoin = ingredients.join()
+
+
+    // NO MORE THAN 100 API CALLS IN A SINGULAR DAY
+    const options = {
+      method: 'GET',
+      url: 'https://themealdb.p.rapidapi.com/filter.php',
+      params: {i: ingJoin},
+      headers: {
+        'X-RapidAPI-Key': '1a40111e03msh68814bdc8d82a07p1fc11ajsnd4965350acd5',
+        'X-RapidAPI-Host': 'themealdb.p.rapidapi.com'
+      }
+    };
+
+    axios.request(options).then(function (response) {
+      console.log(response.data);
+      setRecipes(response.data.meals)
+      setLoading(false)
+    }).catch(function (error) {
+      console.error(error);
+    });
   }
 
   return (
@@ -41,7 +75,14 @@ const Search = () => {
         <Button variant="dark" onClick={generateHandler}>Generate</Button>
       </Form>
 
-      <p>List of recipes</p>
+      <Recipes></Recipes>
+
+      {
+        recipes.length === 0 ? '' :
+          recipes.map(el => <p>{el.strMeal}</p>)
+      }
+
+      { loading ? <p>Loading</p> : ''}
     </Stack>
 
   )
