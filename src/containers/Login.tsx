@@ -3,21 +3,13 @@ import Card from 'react-bootstrap/esm/Card';
 import Row from 'react-bootstrap/esm/Row';
 import Col from 'react-bootstrap/esm/Col';
 import Container from 'react-bootstrap/esm/Container';
-import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
-import firebase from '../firebase';
+import Button from 'react-bootstrap/esm/Button';
 
 type LoginProps = {
-  uiConfig: {
-    signInFlow: string,
-    signInOptions: string[],
-    callbacks: {
-      signInSuccessWithAuthResult: () => boolean
-    }
-  }
+  loginHandler: () => void
 }
 
 const Login = (props:LoginProps) => {
-
   return (
     <Container fluid className='d-flex vh-100'>
       <Row className="m-auto align-self-center">
@@ -25,7 +17,7 @@ const Login = (props:LoginProps) => {
           <Card className="mx-auto">
             <Card.Body>          
               <Card.Title className='mb-5'>Please sign in</Card.Title>
-              <StyledFirebaseAuth uiConfig={props.uiConfig} firebaseAuth={firebase.auth()} />
+              <Button onClick={props.loginHandler}>Sign in with Google</Button>
             </Card.Body>
           </Card>
         </Col>

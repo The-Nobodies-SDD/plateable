@@ -4,10 +4,12 @@ import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import { LinkContainer} from 'react-router-bootstrap';
-import firebase from '../firebase';
 
+type NavBarProps = {
+  logout: () => void
+}
 
-const NavBar = () => {
+const NavBar = (props:NavBarProps) => {
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Container fluid>
@@ -33,7 +35,7 @@ const NavBar = () => {
             </LinkContainer>
           </Nav>
 
-          <Button variant="outline-light" onClick={() => firebase.auth().signOut()}>
+          <Button variant="outline-light" onClick={props.logout}>
             Sign Out
           </Button>
         </Navbar.Collapse>
