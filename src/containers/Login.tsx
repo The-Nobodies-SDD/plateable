@@ -23,7 +23,7 @@ const Login = (props:LoginProps) => {
       <Row className="justify-content-center align-items-center">
         <Col className="justify-content-center align-items-center">
           <Card className="appCard" >
-            <Card.Title>Please sign in</Card.Title>
+            <Card.Title className="pl-3">Please sign in</Card.Title>
             <StyledFirebaseAuth uiConfig={props.uiConfig} firebaseAuth={firebase.auth()} />
           </Card>
         </Col>
