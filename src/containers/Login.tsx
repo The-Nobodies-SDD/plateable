@@ -19,12 +19,14 @@ type LoginProps = {
 const Login = (props:LoginProps) => {
 
   return (
-    <Container fluid className="align-items-center justify-content-center">
-      <Row className="justify-content-center align-items-center">
-        <Col className="justify-content-center align-items-center">
-          <Card className="appCard" >
-            <Card.Title className="pl-3">Please sign in</Card.Title>
-            <StyledFirebaseAuth uiConfig={props.uiConfig} firebaseAuth={firebase.auth()} />
+    <Container fluid className='d-flex vh-100'>
+      <Row className="m-auto align-self-center">
+        <Col>
+          <Card className="mx-auto">
+            <Card.Body>          
+              <Card.Title className='mb-5'>Please sign in</Card.Title>
+              <StyledFirebaseAuth uiConfig={props.uiConfig} firebaseAuth={firebase.auth()} />
+            </Card.Body>
           </Card>
         </Col>
       </Row>
