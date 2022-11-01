@@ -10,17 +10,42 @@ import Nav from './components/Nav';
 import List from './containers/List';
 import Recipe from './components/Recipe';
 
+import firebase from './firebase';
+
 function App() {
 
-  const [isLoggedIn, setIsLoggedIn] = useState<Boolean>(true);
+  const [isLoggedIn, setIsLoggedIn] = useState<Boolean>(false);
   const navigate = useNavigate();
   const path = useLocation();
 
-  useEffect(() => {
-    setIsLoggedIn(true)
-    if (!isLoggedIn && path.pathname !== "/" && path.pathname !== "/login") {
-      navigate("/login")
+  // Configure FirebaseUI.
+  const uiConfig = {
+    // Popup signin flow rather than redirect flow.
+    signInFlow: 'redirect',
+    // Will display Google as auth provider.
+    signInOptions: [
+      firebase.auth.GoogleAuthProvider.PROVIDER_ID
+    ],
+    callbacks: {
+      // Avoid redirects after sign-in.
+      signInSuccessWithAuthResult: () => {
+        navigate("/")
+        return true
+      }
     }
+  };
+
+  useEffect(() => {
+    setIsLoggedIn(false)
+    if (!isLoggedIn && path.pathname !== "/" && path.pathname !== "/login") {
+      navigate("/")
+    }
+
+    const unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
+      setIsLoggedIn(!!user);
+    });
+    return () => unregisterAuthObserver()
+
   }, [isLoggedIn, navigate, path.pathname])
 
 
@@ -34,7 +59,7 @@ function App() {
         <Route path="/grocery" element={<List type="grocery"/>}/>
         <Route path="/recipes" element={<Recipes />}/>
         <Route path="/saved" element={<Saved />}/>
-        <Route path="/login" element={<Login/>}/>
+        <Route path="/login" element={<Login uiConfig={uiConfig}/>}/>
       </Routes>
     </div>
   );

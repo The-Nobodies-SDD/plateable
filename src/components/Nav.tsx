@@ -2,7 +2,10 @@ import React from 'react';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
+import Button from 'react-bootstrap/Button';
 import { LinkContainer} from 'react-router-bootstrap';
+import firebase from '../firebase';
+
 
 const NavBar = () => {
   return (
@@ -29,6 +32,10 @@ const NavBar = () => {
               <Nav.Link>Saved</Nav.Link>
             </LinkContainer>
           </Nav>
+
+          <Button variant="outline-light" onClick={() => firebase.auth().signOut()}>
+            Sign Out
+          </Button>
         </Navbar.Collapse>
       </Container>
     </Navbar>
