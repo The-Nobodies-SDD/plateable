@@ -11,47 +11,52 @@ import List from './containers/List';
 import Recipe from './components/Recipe';
 
 import firebase from './firebase';
+import { getAuth, signInWithPopup, GoogleAuthProvider} from 'firebase/auth';
 
 function App() {
 
   const [isLoggedIn, setIsLoggedIn] = useState<Boolean>(false);
   const navigate = useNavigate();
   const path = useLocation();
+  
+  
 
-  // Configure FirebaseUI.
-  const uiConfig = {
-    // Popup signin flow rather than redirect flow.
-    signInFlow: 'redirect',
-    // Will display Google as auth provider.
-    signInOptions: [
-      firebase.auth.GoogleAuthProvider.PROVIDER_ID
-    ],
-    callbacks: {
-      // Avoid redirects after sign-in.
-      signInSuccessWithAuthResult: () => {
-        navigate("/")
-        return true
-      }
-    }
-  };
+  const loginHandler = () => {
+
+    const auth = getAuth()
+    // const auth = getAuth()
+    // const provider = new GoogleAuthProvider()
+    // signInWithPopup(auth, provider)
+    //   .then(() => {
+    //     navigate("/")
+    //   })
+  }
+
+  const logoutHandler = () => {
+    // signOut(auth)
+    //   .then(() => {
+    //     navigate("/login")
+    //   })
+  }
+
+
 
   useEffect(() => {
-    setIsLoggedIn(false)
     if (!isLoggedIn && path.pathname !== "/" && path.pathname !== "/login") {
       navigate("/")
     }
 
-    const unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
-      setIsLoggedIn(!!user);
-    });
-    return () => unregisterAuthObserver()
+    // const unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
+    //   setIsLoggedIn(!!user);
+    // });
+    // return () => unregisterAuthObserver()
 
   }, [isLoggedIn, navigate, path.pathname])
 
 
   return (
     <div className="App">
-      {isLoggedIn ? <Nav /> : ''}
+      {isLoggedIn ? <Nav logout={logoutHandler}/> : ''}
 
       <Routes>
         <Route path="/" element={isLoggedIn ? <List type="pantry"/>: <Recipe/>}/>
@@ -59,7 +64,7 @@ function App() {
         <Route path="/grocery" element={<List type="grocery"/>}/>
         <Route path="/recipes" element={<Recipes />}/>
         <Route path="/saved" element={<Saved />}/>
-        <Route path="/login" element={<Login uiConfig={uiConfig}/>}/>
+        <Route path="/login" element={<Login loginHandler={loginHandler}/>}/>
       </Routes>
     </div>
   );
