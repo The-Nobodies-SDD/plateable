@@ -11,7 +11,7 @@ import List from './containers/List';
 import Recipe from './components/Recipe';
 
 import firebase from './firebase';
-import { getAuth, signInWithPopup, GoogleAuthProvider} from 'firebase/auth';
+import { getAuth, signInWithPopup, GoogleAuthProvider, signOut} from 'firebase/auth';
 
 function App() {
 
@@ -19,37 +19,32 @@ function App() {
   const navigate = useNavigate();
   const path = useLocation();
   
-  
+  const auth = getAuth()
+  const provider = new GoogleAuthProvider()
 
   const loginHandler = () => {
-
-    const auth = getAuth()
-    // const auth = getAuth()
-    // const provider = new GoogleAuthProvider()
-    // signInWithPopup(auth, provider)
-    //   .then(() => {
-    //     navigate("/")
-    //   })
+    signInWithPopup(auth, provider)
+      .then(() => {
+        navigate("/")
+      })
   }
 
   const logoutHandler = () => {
-    // signOut(auth)
-    //   .then(() => {
-    //     navigate("/login")
-    //   })
+    signOut(auth)
+      .then(() => {
+        navigate("/login")
+      })
   }
-
-
 
   useEffect(() => {
     if (!isLoggedIn && path.pathname !== "/" && path.pathname !== "/login") {
       navigate("/")
     }
 
-    // const unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
-    //   setIsLoggedIn(!!user);
-    // });
-    // return () => unregisterAuthObserver()
+    const unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
+      setIsLoggedIn(!!user);
+    });
+    return () => unregisterAuthObserver()
 
   }, [isLoggedIn, navigate, path.pathname])
 
