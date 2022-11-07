@@ -9,7 +9,6 @@ import Landing from './containers/Landing';
 import Nav from './components/Nav';
 
 import List from './containers/List';
-import Recipe from './components/Recipe';
 
 function App() {
 
@@ -30,7 +29,7 @@ function App() {
       {isLoggedIn ? <Nav /> : ''}
 
       <Routes>
-        <Route path="/" element={isLoggedIn ? <List type="pantry"/>: <Recipe/>}/>
+        <Route path="/" element={isLoggedIn ? <List type="pantry"/>: <Landing/>}/>
         <Route path="/pantry" element={<List type="pantry"/>}/>
         <Route path="/grocery" element={<List type="grocery"/>}/>
         <Route path="/recipes" element={<Recipes />}/>
