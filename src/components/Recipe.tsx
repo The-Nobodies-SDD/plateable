@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Card from 'react-bootstrap/Card';
 import Container from 'react-bootstrap/Container';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+import { Module } from 'module';
 
 
 type RecipeProps = {
@@ -14,10 +17,17 @@ type RecipeProps = {
 }
 
 const Recipe = ({info}:RecipeProps) => {
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  
+
   return (
-    <Container>
-    <Card style={{ width: '18rem' }}>
-      <Card.Img className="img-fluid" variant="top" src={info.img} />
+    <>
+    <Button style={{color:"black", border:"None", background:"None", padding:"0"}} onClick={handleShow}>
+    <Card >
+      <Card.Img className="img-fluid" variant="top" src={info.img} style={{ width: '18rem', height:'18rem'}}/>
       <Card.Body>
         <Card.Title>
           {info.name} 
@@ -36,9 +46,29 @@ const Recipe = ({info}:RecipeProps) => {
         </Card.Link>
       </Card.Body>
     </Card>
-    </Container>
+    </Button>
 
-  )
-};
+
+    <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>{info.name}</Modal.Title>
+        </Modal.Header>
+        <img src={info.img} alt="" height="500rem"/>
+        <Modal.Body>
+          <div><p>Cook Time: {info.cook_time}</p></div>
+          {info.desc}
+          </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleClose}>
+            Add Ingredients to Grocery List
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
+  );
+}
 
 export default Recipe;
