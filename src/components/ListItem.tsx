@@ -10,7 +10,7 @@ import Form from 'react-bootstrap/Form';
 type ListItemProps = {
   info: {
 		name: string,
-		unit: string,
+		unit: string | null,
 		num: number
 	}
 }

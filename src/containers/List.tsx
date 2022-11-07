@@ -17,8 +17,13 @@ type ListProps = {
 }
 
 const List = ({type}:ListProps) => {
-
-  const ingredients = [{
+  type Ingredient = {
+    name: string,
+    unit: string | null,
+    num: number
+  }
+  const [ingredients, setIngredients] = useState<Ingredient[]>(
+  [{
     name: "Eggs",
     unit: "count",
     num: 12
@@ -26,13 +31,15 @@ const List = ({type}:ListProps) => {
     name: "Flour",
     unit: "cups",
     num: 6
-  }]
+  }])
+
 
   const [showForm, setShowForm] = useState<boolean>(false)
 
-  // const handleAddItem = () => {
-
-  // }
+  const handleAddItem = (itemName:string, itemNum:number, itemUnit:string | null) => {
+    const newItem:Ingredient = {name:itemName, unit:itemUnit, num:itemNum}
+    setIngredients(prev => [...prev, newItem])
+  }
 
   return (
     <Container>
@@ -73,7 +80,7 @@ const List = ({type}:ListProps) => {
     
       <Collapse in={showForm}>
         <Row className="mb-3" id="form-collapse">
-          <AddItemForm setShowForm={setShowForm}/>
+          <AddItemForm setShowForm={setShowForm} handleAddItem={handleAddItem}/>
         </Row>
       </Collapse>
 
