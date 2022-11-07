@@ -12,9 +12,9 @@ import axios from 'axios';
 const Search = () => {
 
   type RecipeInfo = {
-    idMeal: string,
-    strMeal: string,
-    strMealThumb: string
+    id: string,
+    title: string,
+    imageUrl: string
   }
 
 
@@ -23,30 +23,57 @@ const Search = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const searchHandler = () => {
-    searchRef.current &&  searchRef.current?.value.length ? console.log(searchRef.current.value) : alert("nothing input")
+    if (!(searchRef.current && searchRef.current?.value.length)) {
+      alert("Nothing input")
+      return
+    }
+
+    const options = {
+      method: 'GET',
+      url: 'https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/complexSearch',
+      params: {
+        query: searchRef.current.value,
+        
+      },
+      headers: {
+        'X-RapidAPI-Key': '',
+        'X-RapidAPI-Host': 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com'
+      }
+    };
+
+    axios.request(options)
+      .then(res => {
+        console.log(res.data)
+        setRecipes(res.data.results)
+      })
   } 
 
   const generateHandler = () => {
     setLoading(true)
 
-    const ingredients = ["chicken_breast", "salt"]
+    const ingredients = ["chicken breast", "salt"]
     const ingJoin = ingredients.join()
 
 
-    // NO MORE THAN 100 API CALLS IN A SINGULAR DAY
+    // NO MORE THAN 500 API CALLS IN A SINGULAR DAY
     const options = {
       method: 'GET',
-      url: 'https://themealdb.p.rapidapi.com/filter.php',
-      params: {i: ingJoin},
+      url: 'https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients',
+      params: {
+        ingredients: ingJoin,
+        number: '5',
+        ignorePantry: 'true',
+        ranking: '1'
+      },
       headers: {
-        'X-RapidAPI-Key': '1a40111e03msh68814bdc8d82a07p1fc11ajsnd4965350acd5',
-        'X-RapidAPI-Host': 'themealdb.p.rapidapi.com'
+        'X-RapidAPI-Key': '',
+        'X-RapidAPI-Host': 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com'
       }
     };
 
     axios.request(options).then(function (response) {
       console.log(response.data);
-      setRecipes(response.data.meals)
+      setRecipes(response.data)
       setLoading(false)
     }).catch(function (error) {
       console.error(error);
@@ -79,7 +106,7 @@ const Search = () => {
 
       {
         recipes.length === 0 ? '' :
-          recipes.map(el => <p>{el.strMeal}</p>)
+          recipes.map(el => <p key={el.id}>{el.title}</p>)
       }
 
       { loading ? <p>Loading</p> : ''}
