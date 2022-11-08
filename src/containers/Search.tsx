@@ -1,10 +1,7 @@
 import React, { useRef, useState } from 'react';
 import Button from 'react-bootstrap/esm/Button';
-import InputGroup from 'react-bootstrap/esm/InputGroup';
 import Form from 'react-bootstrap/Form';
-import Row from 'react-bootstrap/esm/Row';
-import Col from 'react-bootstrap/esm/Col';
-import Container from 'react-bootstrap/esm/Container';
+
 import Stack from 'react-bootstrap/esm/Stack';
 import Recipes from './Recipes';
 import axios from 'axios';
@@ -25,6 +22,7 @@ const Search = () => {
   const searchHandler = () => {
     if (!(searchRef.current && searchRef.current?.value.length)) {
       alert("Nothing input")
+      console.log(process.env.REACT_APP_API_KEY)
       return
     }
 
@@ -36,7 +34,7 @@ const Search = () => {
         
       },
       headers: {
-        'X-RapidAPI-Key': '',
+        'X-RapidAPI-Key': process.env.REACT_APP_API_KEY,
         'X-RapidAPI-Host': 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com'
       }
     };
@@ -66,7 +64,7 @@ const Search = () => {
         ranking: '1'
       },
       headers: {
-        'X-RapidAPI-Key': '',
+        'X-RapidAPI-Key': process.env.REACT_APP_API_KEY,
         'X-RapidAPI-Host': 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com'
       }
     };

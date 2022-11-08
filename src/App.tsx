@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 
 import Login from './containers/Login';
-import Recipes from './containers/Recipes';
 import Saved from './containers/Saved';
 
 import Nav from './components/Nav';
