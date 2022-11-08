@@ -6,9 +6,11 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
+import Collapse from 'react-bootstrap/Collapse';
 
 import ListItem from '../components/ListItem';
 import AddItemForm from '../components/AddItemForm';
+
 
 type ListProps = {
   type: string
@@ -59,15 +61,21 @@ const List = ({type}:ListProps) => {
         </Col>
         
         <Col xs="auto" sm="auto" md="auto" lg="auto">
-          <Button variant="dark" onClick={() => {setShowForm(true)}}>Add New Item</Button>
+          <Button 
+            variant="dark" 
+            onClick={() => {setShowForm(true)}} 
+            aria-controls="form-collapse" 
+            aria-expanded={showForm}> 
+            Add New Item
+          </Button>
         </Col>
       </Row>
-      {
-        !showForm ? "" : 
-          <Row className="mb-3">
-            <AddItemForm setShowForm={setShowForm}/>
-          </Row>
-      }
+    
+      <Collapse in={showForm}>
+        <Row className="mb-3" id="form-collapse">
+          <AddItemForm setShowForm={setShowForm}/>
+        </Row>
+      </Collapse>
 
       <Row>
         <ListGroup>
