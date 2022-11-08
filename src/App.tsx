@@ -8,7 +8,7 @@ import Saved from './containers/Saved';
 import Nav from './components/Nav';
 
 import List from './containers/List';
-import Recipe from './components/Recipe';
+//import Recipe from './components/Recipe';
 
 function App() {
 
