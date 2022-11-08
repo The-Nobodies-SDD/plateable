@@ -54,6 +54,7 @@ function App() {
       {isLoggedIn ? <Nav logout={logoutHandler}/> : ''}
 
       <Routes>
+
         <Route path="/" element={isLoggedIn ? <List type="pantry"/>: <Landing/>}/>
         <Route path="/pantry" element={<List type="pantry"/>}/>
         <Route path="/grocery" element={<List type="grocery"/>}/>
