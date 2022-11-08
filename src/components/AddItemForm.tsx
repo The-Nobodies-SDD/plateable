@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 import Dropdown from 'react-bootstrap/Dropdown';
 import InputGroup from 'react-bootstrap/InputGroup';
@@ -8,19 +8,38 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 
 type AddItemProps = {
-  setShowForm: React.Dispatch<React.SetStateAction<boolean>>
+  setShowForm: React.Dispatch<React.SetStateAction<boolean>>, 
+  handleAddItem: (itemName:string, count:number, unit:string | null) => void
 }
 
-const AddItemForm = ({setShowForm}:AddItemProps) => {
+const AddItemForm = (props:AddItemProps) => {
+  const [itemNum, setItemNum] = useState<number>(1)
 
   const [itemUnit, setItemUnit] = useState<string | null>('count')
+
+  const itemRef = useRef<HTMLInputElement>(null);
 
   // current options for units
 	const units = ["count", "lbs", "oz", "fl. oz", "tbs", "tsp", "cups"]
 
+  const handleNumChange = (amount:string) => {
+    setItemNum(Number(amount));
+  }
+
   const handleUnitChange = (eventKey: string | null) => {
     setItemUnit(eventKey);
 	}
+
+  const handleSubmit = () => {
+    if (!(itemRef.current &&  itemRef.current?.value.length)) {
+      alert("nothing input");
+      return;
+    }
+    props.handleAddItem(itemRef.current.value, itemNum, itemUnit);
+    itemRef.current.value = "";
+    setItemNum(1);
+    setItemUnit('count');
+  }
 
   return (
     <Form>
@@ -32,6 +51,7 @@ const AddItemForm = ({setShowForm}:AddItemProps) => {
         </Form.Label>
         <InputGroup>
           <Form.Control 
+            ref={ itemRef }
             id="newItemName"
             placeholder="Item Name"
             type="text"
@@ -51,8 +71,15 @@ const AddItemForm = ({setShowForm}:AddItemProps) => {
         </Dropdown>
       
         <div>
-          <Button variant="dark">Add</Button>
-          <Button variant="outline-dark" onClick={() => setShowForm(false)}>Cancel</Button>
+          <InputGroup>
+            <Form.Control placeholder="number" aria-label="num" type="number" 
+              onChange={e => handleNumChange(e.target.value)} value={itemNum}/>
+          </InputGroup>
+        </div>
+
+        <div>
+          <Button variant="dark" onClick={handleSubmit}>Add</Button>
+          <Button variant="outline-dark" onClick={() => props.setShowForm(false)}>Cancel</Button>
         </div>
       </Col>
       </Row>
