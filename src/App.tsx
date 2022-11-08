@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 
 import Login from './containers/Login';
-import Recipes from './containers/Recipes';
 import Saved from './containers/Saved';
 import Landing from './containers/Landing';
 
 import Nav from './components/Nav';
 
 import List from './containers/List';
+import Search from './containers/Search';
 
 function App() {
 
@@ -32,7 +32,7 @@ function App() {
         <Route path="/" element={isLoggedIn ? <List type="pantry"/>: <Landing/>}/>
         <Route path="/pantry" element={<List type="pantry"/>}/>
         <Route path="/grocery" element={<List type="grocery"/>}/>
-        <Route path="/recipes" element={<Recipes />}/>
+        <Route path="/recipes" element={<Search />}/>
         <Route path="/saved" element={<Saved />}/>
         <Route path="/login" element={<Login/>}/>
       </Routes>
