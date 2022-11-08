@@ -9,7 +9,6 @@ import Landing from './containers/Landing';
 import Nav from './components/Nav';
 
 import List from './containers/List';
-import Recipe from './components/Recipe';
 
 function App() {
 
