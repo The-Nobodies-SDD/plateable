@@ -37,6 +37,11 @@ const List = ({type}:ListProps) => {
   const [showForm, setShowForm] = useState<boolean>(false)
 
   const handleAddItem = (itemName:string, itemNum:number, itemUnit:string | null) => {
+    //objectArray.findIndex((item) => item.name === 'Israel'); returns -1 if not present
+    if (ingredients.findIndex((item) => item.name === itemName) !== -1) {
+      alert("Item already exists in list")
+      return
+    }
     const newItem:Ingredient = {name:itemName, unit:itemUnit, num:itemNum}
     setIngredients(prev => [...prev, newItem])
     console.log(ingredients)
