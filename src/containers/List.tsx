@@ -39,6 +39,12 @@ const List = ({type}:ListProps) => {
   const handleAddItem = (itemName:string, itemNum:number, itemUnit:string | null) => {
     const newItem:Ingredient = {name:itemName, unit:itemUnit, num:itemNum}
     setIngredients(prev => [...prev, newItem])
+    console.log(ingredients)
+  }
+
+  const handleDeleteItem = (name: string) => {
+    var newIngredients = ingredients.filter(e => e.name !== name)
+    setIngredients(newIngredients)
   }
 
   return (
@@ -88,7 +94,7 @@ const List = ({type}:ListProps) => {
         <ListGroup>
           {
             ingredients.map( ingredient => (
-              <ListGroup.Item><ListItem info={ingredient} /></ListGroup.Item>
+              <ListGroup.Item><ListItem info={ingredient} handleDeleteItem={handleDeleteItem}/></ListGroup.Item>
             ))
           }
         </ListGroup>
