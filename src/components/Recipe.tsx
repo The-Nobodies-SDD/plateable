@@ -1,18 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Card from 'react-bootstrap/Card';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-
-
-// type RecipeProps = {
-//   info: {
-// 		name: string,
-// 		cook_time: string,
-//     desc: string,
-// 		link: string, 
-//     img : string
-// 	}
-// }
+import {useGlobalSavedContext} from '../App';
 
 type RecipeProps = {
   info: {
@@ -25,10 +15,33 @@ type RecipeProps = {
 
 const Recipe = ({info}:RecipeProps) => {
   const [show, setShow] = useState(false);
-
+  const [isSaved, setIsSaved] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  
+
+  const {items, setItems} = useGlobalSavedContext()
+
+  useEffect(() => {
+    const found = items.find(el => {
+      return el.info.id === info.id
+    })
+
+    if (found) {
+      setIsSaved(true)
+    }
+  }, [info.id, items])
+
+  const handleSaveItem = () => {
+    if (isSaved) {
+      const newItems = items.filter(el => el.info.id !== info.id);
+      setItems(newItems);
+      setIsSaved(true);
+    } else {
+      setItems([...items, {info:{...info}}]);
+      setIsSaved(false);
+    }
+  }
+
 
   return (
     <>
@@ -39,18 +52,6 @@ const Recipe = ({info}:RecipeProps) => {
         <Card.Title>
           {info.title} 
         </Card.Title>
-
-        {/* <Card.Subtitle className="mb-2 text-muted">
-          {info.cook_time} 
-        </Card.Subtitle> */}
-
-        {/* <Card.Text>
-          {info.desc}
-        </Card.Text> */}
-
-        {/* <Card.Link href = {info.link}>
-          Link
-        </Card.Link> */}
       </Card.Body>
     </Card>
     </Button>
@@ -61,10 +62,9 @@ const Recipe = ({info}:RecipeProps) => {
           <Modal.Title>{info.title}</Modal.Title>
         </Modal.Header>
         <img src={info.image} alt="" height="500rem"/>
-        {/* <Modal.Body>
-          <div><p>Cook Time: {info.cook_time}</p></div>
-          {info.desc}
-        </Modal.Body> */}
+        <Modal.Body>
+          <Button onClick={handleSaveItem}>{isSaved ? "Unsave" : "Save"}</Button>
+        </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close

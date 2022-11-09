@@ -8,18 +8,7 @@ import Recipe from '../components/Recipe';
 import axios from 'axios';
 
 
-type RecipeProps = {
-  info:{id: string,
-  title: string,
-  image: string,
-  missingIng: string[]}
-}
-
-type SearchProps = {
-  setSaved: React.Dispatch<React.SetStateAction<RecipeProps[]>>
-}
-
-const Search = (props:SearchProps) => {
+const Search = () => {
 
   type RecipeInfo = {
     id: string,
@@ -53,7 +42,6 @@ const Search = (props:SearchProps) => {
 
     axios.request(options)
       .then(res => {
-        // console.log(res.data)
         setRecipes(res.data.results)
       })
   } 
@@ -61,7 +49,7 @@ const Search = (props:SearchProps) => {
   const generateHandler = () => {
     setLoading(true)
 
-    const ingredients = ["chicken breast", "salt"]
+    const ingredients = ["sugar", "cream", "garlic", "olive oil"]
     const ingJoin = ingredients.join()
 
 
