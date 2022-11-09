@@ -15,10 +15,6 @@ import { getAuth, signInWithPopup, GoogleAuthProvider, signOut} from 'firebase/a
 
 function App() {
 
-  const pantry_list = () => {}
-
-  const grocery_list = () => {}
-
 
   const [isLoggedIn, setIsLoggedIn] = useState<Boolean>(false);
   const navigate = useNavigate();
