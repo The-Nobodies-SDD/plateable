@@ -15,6 +15,7 @@ import { getAuth, signInWithPopup, GoogleAuthProvider, signOut} from 'firebase/a
 
 function App() {
 
+
   const [isLoggedIn, setIsLoggedIn] = useState<Boolean>(false);
   const navigate = useNavigate();
   const path = useLocation();
