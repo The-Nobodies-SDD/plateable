@@ -4,14 +4,23 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
 
+// type RecipeProps = {
+//   info: {
+// 		name: string,
+// 		cook_time: string,
+//     desc: string,
+// 		link: string, 
+//     img : string
+// 	}
+// }
+
 type RecipeProps = {
   info: {
-		name: string,
-		cook_time: string,
-    desc: string,
-		link: string, 
-    img : string
-	}
+    id: string,
+    title: string,
+    image: string,
+    missingIng: string[]
+  }
 }
 
 const Recipe = ({info}:RecipeProps) => {
@@ -25,23 +34,23 @@ const Recipe = ({info}:RecipeProps) => {
     <>
     <Button style={{color:"black", border:"None", background:"None", padding:"0"}} onClick={handleShow}>
     <Card >
-      <Card.Img className="img-fluid" variant="top" src={info.img} style={{ width: '18rem', height:'18rem'}}/>
+      <Card.Img className="img-fluid" variant="top" src={info.image} style={{ width: '18rem', height:'18rem'}}/>
       <Card.Body>
         <Card.Title>
-          {info.name} 
+          {info.title} 
         </Card.Title>
 
-        <Card.Subtitle className="mb-2 text-muted">
+        {/* <Card.Subtitle className="mb-2 text-muted">
           {info.cook_time} 
-        </Card.Subtitle>
+        </Card.Subtitle> */}
 
-        <Card.Text>
+        {/* <Card.Text>
           {info.desc}
-        </Card.Text>
+        </Card.Text> */}
 
-        <Card.Link href = {info.link}>
+        {/* <Card.Link href = {info.link}>
           Link
-        </Card.Link>
+        </Card.Link> */}
       </Card.Body>
     </Card>
     </Button>
@@ -49,13 +58,13 @@ const Recipe = ({info}:RecipeProps) => {
 
     <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>{info.name}</Modal.Title>
+          <Modal.Title>{info.title}</Modal.Title>
         </Modal.Header>
-        <img src={info.img} alt="" height="500rem"/>
-        <Modal.Body>
+        <img src={info.image} alt="" height="500rem"/>
+        {/* <Modal.Body>
           <div><p>Cook Time: {info.cook_time}</p></div>
           {info.desc}
-          </Modal.Body>
+        </Modal.Body> */}
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close
