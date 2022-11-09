@@ -4,16 +4,18 @@ import Form from 'react-bootstrap/Form';
 
 import Stack from 'react-bootstrap/esm/Stack';
 import Recipes from './Recipes';
+import Recipe from '../components/Recipe';
 import axios from 'axios';
+
 
 const Search = () => {
 
   type RecipeInfo = {
     id: string,
     title: string,
-    imageUrl: string
+    image: string,
+    missingIng: string[]
   }
-
 
   const searchRef = useRef<HTMLInputElement>(null);
   const [recipes, setRecipes] = useState<RecipeInfo[]>([]);
@@ -22,7 +24,6 @@ const Search = () => {
   const searchHandler = () => {
     if (!(searchRef.current && searchRef.current?.value.length)) {
       alert("Nothing input")
-      console.log(process.env.REACT_APP_API_KEY)
       return
     }
 
@@ -41,7 +42,6 @@ const Search = () => {
 
     axios.request(options)
       .then(res => {
-        console.log(res.data)
         setRecipes(res.data.results)
       })
   } 
@@ -49,7 +49,7 @@ const Search = () => {
   const generateHandler = () => {
     setLoading(true)
 
-    const ingredients = ["chicken breast", "salt"]
+    const ingredients = ["sugar", "cream", "garlic", "olive oil"]
     const ingJoin = ingredients.join()
 
 
@@ -103,8 +103,8 @@ const Search = () => {
       <Recipes></Recipes>
 
       {
-        recipes.length === 0 ? '' :
-          recipes.map(el => <p key={el.id}>{el.title}</p>)
+        recipes.length === 0 ? '' : 
+          recipes.map(el => <Recipe info={{id: el.id, title: el.title, image: el.image, missingIng: []}}/>)
       }
 
       { loading ? <p>Loading</p> : ''}
