@@ -76,8 +76,17 @@ const List = ({type}:ListProps) => {
   const [showForm, setShowForm] = useState<boolean>(false)
 
   const handleAddItem = (itemName:string, itemNum:number, itemUnit:string | null) => {
+    if (ingredients.findIndex((item) => item.name === itemName) !== -1) {
+      alert("Item already exists in list")
+      return
+    }
     const newItem:Ingredient = {name:itemName, unit:itemUnit, num:itemNum}
     setIngredients(prev => [...prev, newItem])
+  }
+
+  const handleDeleteItem = (name: string) => {
+    const newIngredients = ingredients.filter(e => e.name !== name)
+    setIngredients(newIngredients)
   }
 
   return (
@@ -127,7 +136,7 @@ const List = ({type}:ListProps) => {
         <ListGroup>
           {
             ingredients.map( ingredient => (
-              <ListGroup.Item><ListItem info={ingredient} /></ListGroup.Item>
+              <ListGroup.Item><ListItem info={ingredient} handleDeleteItem={handleDeleteItem}/></ListGroup.Item>
             ))
           }
         </ListGroup>

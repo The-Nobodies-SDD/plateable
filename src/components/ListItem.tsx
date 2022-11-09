@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Trash } from 'react-bootstrap-icons'
 import Container from 'react-bootstrap/Container';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Button from 'react-bootstrap/Button';
@@ -12,16 +13,17 @@ type ListItemProps = {
 		name: string,
 		unit: string | null,
 		num: number
-	}
+	}, 
+	handleDeleteItem: (name: string) => void
 }
 
-const ListItem = ({info}:ListItemProps) => {
+const ListItem = (props:ListItemProps) => {
 
 	// keeps track of the type of unit for this item
-	const [itemUnit, setItemUnit] = useState<string | null>(info.unit);
+	const [itemUnit, setItemUnit] = useState<string | null>(props.info.unit);
 	
 	// keeps track of the nums of units for this item
-	const [itemNum, setItemNum] = useState(info.num);
+	const [itemNum, setItemNum] = useState(props.info.num);
 
 	// current options for units
 	const units = ["count", "lbs", "oz", "fl. oz", "tbs", "tsp", "cups"];
@@ -44,7 +46,7 @@ const ListItem = ({info}:ListItemProps) => {
 		<div>{/* Content will be drawn from db server*/}
 			<Container>
 				<Row>
-					<Col> <p> {info.name} </p> </Col> 
+					<Col> <p> {props.info.name} </p> </Col> 
 					
 					<Col xs="auto" sm="auto" md="auto" lg="auto"> 
 						<Dropdown onSelect={handleUnitChange}>
@@ -72,6 +74,10 @@ const ListItem = ({info}:ListItemProps) => {
 
 						<Col xs="auto" sm="auto" md="auto" lg="auto">
 							<Button variant="outline-dark" onClick={() => handleCountChange(1)}>+</Button>
+						</Col>
+
+						<Col xs="auto" sm="auto" md="auto" lg="auto">
+							<Button variant="outline-dark" onClick={() => props.handleDeleteItem(props.info.name)}> <Trash /> </Button>
 						</Col>
 						
 					{/* </Container> */}
