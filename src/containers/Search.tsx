@@ -7,7 +7,7 @@ import Recipes from './Recipes';
 import Recipe from '../components/Recipe';
 import axios from 'axios';
 
-
+// page which allows users to search for and generate recipes
 const Search = () => {
 
   type RecipeInfo = {
@@ -17,16 +17,28 @@ const Search = () => {
     missingIng: string[]
   }
 
+  // ref to keep track of the search bar input
   const searchRef = useRef<HTMLInputElement>(null);
+
+  // state to keep track of all current recipes
   const [recipes, setRecipes] = useState<RecipeInfo[]>([]);
+
+  // state used to display when a query is loading
   const [loading, setLoading] = useState<boolean>(false);
 
+  // handler for when a user searches for a recipe
   const searchHandler = () => {
+
+    // displays loading indicator
+    setLoading(true)
+
+    // alerts user if they did not input anything into the search bar
     if (!(searchRef.current && searchRef.current?.value.length)) {
       alert("Nothing input")
       return
     }
 
+    // configuration options for api call
     const options = {
       method: 'GET',
       url: 'https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/complexSearch',
@@ -40,20 +52,31 @@ const Search = () => {
       }
     };
 
+    // gets the data and sets recipe state to result
     axios.request(options)
       .then(res => {
         setRecipes(res.data.results)
+        setLoading(false)
+      })
+      .catch(err => {
+        console.error(err)
       })
   } 
 
+  // handler for when a user generates recipes 
   const generateHandler = () => {
+
+    // displays loading indicator
     setLoading(true)
 
+    // placeholder pantry list 
     const ingredients = ["sugar", "cream", "garlic", "olive oil"]
+
+    // concatenates entire pantry list into one string
     const ingJoin = ingredients.join()
 
 
-    // NO MORE THAN 500 API CALLS IN A SINGULAR DAY
+    // configures api call
     const options = {
       method: 'GET',
       url: 'https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients',
@@ -69,13 +92,15 @@ const Search = () => {
       }
     };
 
-    axios.request(options).then(function (response) {
-      console.log(response.data);
-      setRecipes(response.data)
-      setLoading(false)
-    }).catch(function (error) {
-      console.error(error);
-    });
+    // makes api call and sets result to state
+    axios.request(options)
+      .then(res => {
+        setRecipes(res.data)
+        setLoading(false)
+      })
+      .catch(err => {
+        console.error(err);
+      });
   }
 
   return (
@@ -102,11 +127,13 @@ const Search = () => {
 
       <Recipes></Recipes>
 
+      {/* displays all recipe items */}
       {
         recipes.length === 0 ? '' : 
           recipes.map(el => <Recipe info={{id: el.id, title: el.title, image: el.image, missingIng: []}}/>)
       }
 
+      {/* displays loading indicator only when loading is true */}
       { loading ? <p>Loading</p> : ''}
     </Stack>
 

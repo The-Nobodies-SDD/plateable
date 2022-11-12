@@ -9,6 +9,7 @@ type LoginProps = {
   loginHandler: () => void
 }
 
+// displays the login page with each of the login options
 const Login = (props:LoginProps) => {
   return (
     <Container fluid className='d-flex vh-100'>
