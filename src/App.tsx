@@ -23,7 +23,6 @@ export type RecipeProps = {
   }
 } 
 
-
 // global context that keeps track of all of a user's saved recipes
 type GlobalSaved = {
   items: RecipeProps[],
