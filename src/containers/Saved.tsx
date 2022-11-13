@@ -6,7 +6,16 @@ import Recipe from '../components/Recipe';
 import ListGroup from 'react-bootstrap/ListGroup';
 import {useGlobalSavedContext} from '../App';
 
+
+/*
+Saved Recipe class:
+  presents saved recipe page to the user. 
+
+  Interacts with Recipe class to get recipe cards
+*/
 const Saved = () => {
+
+  // User's saved recipes (from App)
   const { items } = useGlobalSavedContext()
 
   return (

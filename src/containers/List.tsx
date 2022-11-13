@@ -16,6 +16,14 @@ type ListProps = {
   type: string
 }
 
+/*
+  List Class:
+    Houses the structure of the list pages (pantry list and grocery list)
+
+    Pantry List page and Grocery List page inherit from the list page. 
+
+    List class also interacts with AddItemForm class and ListItem class
+*/
 const List = ({type}:ListProps) => {
   type Ingredient = {
     name: string,
@@ -23,10 +31,8 @@ const List = ({type}:ListProps) => {
     num: number
   }
   
-
+  // Sample ingredients to be dispayed in demo
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
-
-
   useEffect(() => {
 
       if (type === "pantry") {
@@ -74,7 +80,8 @@ const List = ({type}:ListProps) => {
 
 
   const [showForm, setShowForm] = useState<boolean>(false)
-
+  
+  // Function for adding an existing item to list
   const handleAddItem = (itemName:string, itemNum:number, itemUnit:string | null) => {
     if (ingredients.findIndex((item) => item.name === itemName) !== -1) {
       alert("Item already exists in list")
@@ -84,23 +91,24 @@ const List = ({type}:ListProps) => {
     setIngredients(prev => [...prev, newItem])
   }
 
+  // Function to handle deleting an item
   const handleDeleteItem = (name: string) => {
     const newIngredients = ingredients.filter(e => e.name !== name)
     setIngredients(newIngredients)
   }
 
   return (
+    // Structure of the resulting webpage is in the return statement:
+
     <Container>
+      {/* Title Row */}
       <Row>
         <div style={{textAlign: 'center', paddingTop:100, paddingBottom:100}}>
           <h1 >{type} Contents</h1>
         </div>
       </Row>
 
-      {/* Bug when shrunk down to mobile size:
-        the search bar take up the entire space.
-        
-        - Ask stefan for setting max width*/}
+      {/* Row for the search and add item bar. */}
       <Row className="mb-3">
         <Col >
           <InputGroup>
@@ -132,6 +140,7 @@ const List = ({type}:ListProps) => {
         </Row>
       </Collapse>
 
+      {/* Row where the items are displayed. */}
       <Row>
         <ListGroup>
           {
