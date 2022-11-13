@@ -6,8 +6,6 @@ import { useGlobalSavedContext } from '../App';
 
 const Saved = () => {
 
-  
-
   // allows access to set and receive values from global context
   const { items, setItems } = useGlobalSavedContext()
 
@@ -39,7 +37,7 @@ const Saved = () => {
         }
       }
     ]
-    
+
     // sets the global saved state when this component is loaded if it is empty
     if (!items.length) {
       setItems(recipes)
