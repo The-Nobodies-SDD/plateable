@@ -7,8 +7,6 @@ import { RecipeProps } from '../App';
 import axios from 'axios';
 
 
-
-
 // page which allows users to search for and generate recipes
 const Search = () => {
 
