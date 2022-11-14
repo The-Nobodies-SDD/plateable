@@ -1,30 +1,53 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Recipe from '../components/Recipe';
-import ListGroup from 'react-bootstrap/ListGroup';
-import {useGlobalSavedContext} from '../App';
+import Recipes from './Recipes';
+import { useGlobalSavedContext } from '../App';
 
 const Saved = () => {
-  const { items } = useGlobalSavedContext()
+
+  // allows access to set and receive values from global context
+  const { items, setItems } = useGlobalSavedContext()
+
+  useEffect(() => {
+    // placeholder data for saved recipes
+    const recipes = [
+      {
+        info: {
+          id: "23",
+          title: "Buffalo Chicken Wings",
+          image: "https://cafedelites.com/wp-content/uploads/2017/08/Crispy-Buffalo-Chicken-WIngs-IMAGE-9.jpg",
+          missingIng: []
+        }
+      },
+      {
+        info: {
+          id: "213",
+          title: "Roasted Squash ",
+          image: "https://www.melissassouthernstylekitchen.com/wp-content/uploads/2012/07/editedRoastedSquashMedley-Iron-Skillet-Zucchini-Cornbread-064-768x1039.jpg",
+          missingIng: []
+        }
+      },
+      {
+        info: {
+          id: "1233",
+          title: "Scalloped Potatoes",
+          image: "https://www.spendwithpennies.com/wp-content/uploads/2018/11/SpendWithPennies-Scalloped-Potatoes-25.jpg",
+          missingIng: []
+        }
+      }
+    ]
+
+    // sets the global saved state when this component is loaded if it is empty
+    if (!items.length) {
+      setItems(recipes)
+    }
+  }, [items.length, setItems])
 
   return (
     <Container>
       <Row><h1>Saved Recipes</h1></Row>
-      <ListGroup horizontal >
-        <Row>
-        {
-          items.map( el => (
-            <Col xs='9' sm='6' md='5' lg='4' xl='3'>
-              <ListGroup.Item style={{border:"None"}}>
-                <Recipe info={{ id: el.info.id, title: el.info.title, image: el.info.image, missingIng: el.info.missingIng }} />
-              </ListGroup.Item>
-            </Col>
-          ))
-        }
-        </Row>
-      </ListGroup>
+      <Recipes items={items}/>
     </Container>
   )
 }

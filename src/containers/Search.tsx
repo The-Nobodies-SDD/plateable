@@ -1,27 +1,28 @@
 import React, { useRef, useState } from 'react';
 import Button from 'react-bootstrap/esm/Button';
 import Form from 'react-bootstrap/Form';
-
 import Stack from 'react-bootstrap/esm/Stack';
 import Recipes from './Recipes';
-import Recipe from '../components/Recipe';
+import { RecipeProps } from '../App';
 import axios from 'axios';
+
 
 // page which allows users to search for and generate recipes
 const Search = () => {
 
-  type RecipeInfo = {
+  // format of data that is received from api
+  type RecipeReturnType = {
     id: string,
     title: string,
     image: string,
     missingIng: string[]
   }
-
+  
   // ref to keep track of the search bar input
   const searchRef = useRef<HTMLInputElement>(null);
 
   // state to keep track of all current recipes
-  const [recipes, setRecipes] = useState<RecipeInfo[]>([]);
+  const [recipes, setRecipes] = useState<RecipeProps[]>([]);
 
   // state used to display when a query is loading
   const [loading, setLoading] = useState<boolean>(false);
@@ -55,7 +56,13 @@ const Search = () => {
     // gets the data and sets recipe state to result
     axios.request(options)
       .then(res => {
-        setRecipes(res.data.results)
+
+        // reformats the data from the api to the format used around the application
+        const reshaped = res.data.results.map((el:RecipeReturnType) => (
+          {info: {...el}}
+        ))
+
+        setRecipes(reshaped)
         setLoading(false)
       })
       .catch(err => {
@@ -95,7 +102,12 @@ const Search = () => {
     // makes api call and sets result to state
     axios.request(options)
       .then(res => {
-        setRecipes(res.data)
+        // reformats the data from the api to the format used around the application
+        const reshaped = res.data.map((el:RecipeReturnType) => (
+          {info: {...el}}
+        ))
+
+        setRecipes(reshaped)
         setLoading(false)
       })
       .catch(err => {
@@ -125,13 +137,8 @@ const Search = () => {
         <Button variant="dark" onClick={generateHandler}>Generate</Button>
       </Form>
 
-      <Recipes></Recipes>
-
       {/* displays all recipe items */}
-      {
-        recipes.length === 0 ? '' : 
-          recipes.map(el => <Recipe info={{id: el.id, title: el.title, image: el.image, missingIng: []}}/>)
-      }
+      <Recipes items={recipes}/>
 
       {/* displays loading indicator only when loading is true */}
       { loading ? <p>Loading</p> : ''}
