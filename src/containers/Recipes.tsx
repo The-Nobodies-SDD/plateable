@@ -20,7 +20,7 @@ const Recipes = (props:RecipesProps) => {
           props.items.map( el => (
             <Col xs='9' sm='6' md='5' lg='4' xl='3' key={el.info.id}>
               <ListGroup.Item style={{border:"None"}}>
-                <Recipe info={{ id: el.info.id, title: el.info.title, image: el.info.image, missingIng: el.info.missingIng }} />
+                <Recipe info={{ id: el.info.id, title: el.info.title, image: el.info.image }} />
               </ListGroup.Item>
             </Col>
           ))
@@ -31,3 +31,4 @@ const Recipes = (props:RecipesProps) => {
 }
 
 export default Recipes;
+
