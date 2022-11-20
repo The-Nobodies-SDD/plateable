@@ -81,7 +81,7 @@ const List = ({type}:ListProps) => {
 
   const [showForm, setShowForm] = useState<boolean>(false)
   
-  // Function for adding an existing item to list
+  // Function for adding an item to list
   const handleAddItem = (itemName:string, itemNum:number, itemUnit:string | null) => {
     if (ingredients.findIndex((item) => item.name === itemName) !== -1) {
       alert("Item already exists in list")
