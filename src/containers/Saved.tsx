@@ -4,7 +4,15 @@ import Row from 'react-bootstrap/Row';
 import Recipes from './Recipes';
 import { useGlobalSavedContext } from '../App';
 
+
+/*
+Saved Recipe class:
+  presents saved recipe page to the user. 
+
+  Interacts with Recipe class to get recipe cards
+*/
 const Saved = () => {
+
 
   // allows access to set and receive values from global context
   const { items, setItems } = useGlobalSavedContext()
@@ -43,6 +51,7 @@ const Saved = () => {
       setItems(recipes)
     }
   }, [items.length, setItems])
+
 
   return (
     <Container>

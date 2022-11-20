@@ -12,24 +12,32 @@ type AddItemProps = {
   handleAddItem: (itemName:string, count:number, unit:string | null) => void
 }
 
+/*
+  AddItemForm Class:
+    Update ingredient quantities from user interaction with buttons or typing in a text box.
+    Sync with Firebase (database) 
+
+    Interacts with List class.
+*/
 const AddItemForm = (props:AddItemProps) => {
   const [itemNum, setItemNum] = useState<number>(1)
-
   const [itemUnit, setItemUnit] = useState<string | null>('count')
-
   const itemRef = useRef<HTMLInputElement>(null);
 
   // current options for units
 	const units = ["count", "lbs", "oz", "fl. oz", "tbs", "tsp", "cups"]
 
+  // Function for changing number
   const handleNumChange = (amount:string) => {
     setItemNum(Number(amount));
   }
 
+  // Function for changing units
   const handleUnitChange = (eventKey: string | null) => {
     setItemUnit(eventKey);
 	}
 
+  // Funtion for submitting new ingredient
   const handleSubmit = () => {
     if (!(itemRef.current &&  itemRef.current?.value.length)) {
       alert("nothing input");

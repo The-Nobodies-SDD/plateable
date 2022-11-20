@@ -17,6 +17,14 @@ type ListItemProps = {
 	handleDeleteItem: (name: string) => void
 }
 
+
+/*
+  ListItem Class:
+    Structures ingredient information for the user (title, quantity, units)
+		Holds the structure for updating ingredient informaiton (quantity, units)
+
+		Called by List class
+*/
 const ListItem = (props:ListItemProps) => {
 
 	// keeps track of the type of unit for this item

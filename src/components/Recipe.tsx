@@ -13,14 +13,22 @@ type RecipeProps = {
   }
 }
 
+/*
+  Recipe Class:
+    Displays and structures Recipe information.
+    Links recipe cards to modal with information.
+
+
+    Interacts with Recipes class
+*/
 const Recipe = ({info}:RecipeProps) => {
   const [show, setShow] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
   const {items, setItems} = useGlobalSavedContext()
 
+  // Functionality for Saving a recipe
   useEffect(() => {
     const found = items.find(el => {
       return el.info.id === info.id
@@ -31,6 +39,7 @@ const Recipe = ({info}:RecipeProps) => {
     }
   }, [info.id, items])
 
+  // Functionality for moving recipe to saved recipe
   const handleSaveItem = () => {
     if (isSaved) {
       const newItems = items.filter(el => el.info.id !== info.id);
