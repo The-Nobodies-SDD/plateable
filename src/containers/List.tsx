@@ -131,7 +131,6 @@ const List = ({type}:ListProps) => {
               aria-label="Search List"
               aria-describedby="basic-addon2"
               onChange = {filter}
-              onLoad = {filter}
             />
             <Button variant="dark">
               Search
