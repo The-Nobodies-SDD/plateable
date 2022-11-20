@@ -26,51 +26,56 @@ const List = ({type}:ListProps) => {
 
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
 
+  const [displayIngredients, setDisplayIngredients] = useState<Ingredient[]>([]);
+
 
   useEffect(() => {
 
       if (type === "pantry") {
-          setIngredients(
-            [{
-              name: "Sugar",
-              unit: "tablespoon",
-              num: 3
-            }, {
-              name: "Cream",
-              unit: "ounce",
-              num: 4
-            },
-            {
-              name: "Cream of Mushroom Soup",
-              unit: "can",
-              num: 5
-            }, {
-              name: "Olive Oil",
-              unit: "liters",
-              num: 2
-            },
-            {
-              name: "Garlic",
-              unit: "cloves",
-              num: 16
-            }])
+          const sample = [{
+            name: "Sugar",
+            unit: "tablespoon",
+            num: 3
+          }, {
+            name: "Cream",
+            unit: "ounce",
+            num: 4
+          },
+          {
+            name: "Cream of Mushroom Soup",
+            unit: "can",
+            num: 5
+          }, {
+            name: "Olive Oil",
+            unit: "liters",
+            num: 2
+          },
+          {
+            name: "Garlic",
+            unit: "cloves",
+            num: 16
+          }];
+          setIngredients(sample);
+          setDisplayIngredients(sample);
       }else {
-        setIngredients(
-            [{
-              name: "Eggs",
-              unit: "count",
-              num: 12
-            }, {
-              name: "Flour",
-              unit: "cups",
-              num: 6
-            }, {
-              name: "Beef Broth",
-              unit: "cups",
-              num: 4
-            }])
+        const sample = [{
+          name: "Eggs",
+          unit: "count",
+          num: 12
+        }, {
+          name: "Flour",
+          unit: "cups",
+          num: 6
+        }, {
+          name: "Beef Broth",
+          unit: "cups",
+          num: 4
+        }]
+        setIngredients(sample);
+        setDisplayIngredients(sample);
       }
-    }, [type]);
+    }, [type])
+    ;
 
 
   const [showForm, setShowForm] = useState<boolean>(false)
@@ -88,6 +93,21 @@ const List = ({type}:ListProps) => {
     const newIngredients = ingredients.filter(e => e.name !== name)
     setIngredients(newIngredients)
   }
+
+  const filter = (e : any) => {
+    const keyword = e.target.value;
+
+    if (keyword !== ''){
+      const results = ingredients.filter((ingredient) => {
+        return ingredient.name.toLowerCase().startsWith(keyword.toLowerCase());
+      });
+      setDisplayIngredients(results);
+    } else{
+      setDisplayIngredients(ingredients);
+    }
+
+  }
+
 
   return (
     <Container>
@@ -108,6 +128,8 @@ const List = ({type}:ListProps) => {
               placeholder="Search"
               aria-label="Search List"
               aria-describedby="basic-addon2"
+              onChange = {filter}
+              onLoad = {filter}
             />
             <Button variant="dark">
               Search
@@ -133,9 +155,9 @@ const List = ({type}:ListProps) => {
       </Collapse>
 
       <Row>
-        <ListGroup>
+        <ListGroup  >
           {
-            ingredients.map( ingredient => (
+            displayIngredients.map( ingredient => (
               <ListGroup.Item><ListItem info={ingredient} handleDeleteItem={handleDeleteItem}/></ListGroup.Item>
             ))
           }
