@@ -19,7 +19,6 @@ export type RecipeProps = {
     id: string,
     title: string,
     image: string,
-    missingIng: string[]
   }
 } 
 
