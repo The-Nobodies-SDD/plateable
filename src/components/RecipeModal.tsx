@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
+import Stack from 'react-bootstrap/esm/Stack';
 import {useGlobalSavedContext} from '../App';
 
 type RecipeModalProps = {
@@ -84,15 +85,18 @@ const RecipeModal = (props:RecipeModalProps) => {
       </Modal.Header>
       <img src={recipeInfo.image} alt="" height="500rem"/>
       <Modal.Body>
-        <div>
+        <div className='recipeModal__body'>
           <p>Estimated cooking time: {recipeInfo.time} minutes</p>
           { ingredients.length > 0 ? 
             ingredients.map((el) => (
-              <div key={el['name']}>
+              <Stack direction="horizontal" gap={3} key={el['name']}>
                 <p>{el['name']}</p>
-                <p>{el['amount']}</p>
-                <p>{el['unit']}</p>
-              </div>
+
+                <Stack direction="horizontal" gap={3}>
+                  <p>{el['amount']}</p>
+                  <p>{el['unit']}</p>
+                </Stack>
+              </Stack>
           )): ''}
 
           <p>{recipeInfo.instructions}</p>
