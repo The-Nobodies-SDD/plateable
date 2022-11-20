@@ -87,11 +87,13 @@ const List = ({type}:ListProps) => {
     }
     const newItem:Ingredient = {name:itemName, unit:itemUnit, num:itemNum}
     setIngredients(prev => [...prev, newItem])
+    setDisplayIngredients(prev => [...prev, newItem])
   }
 
   const handleDeleteItem = (name: string) => {
     const newIngredients = ingredients.filter(e => e.name !== name)
     setIngredients(newIngredients)
+    setDisplayIngredients(newIngredients)
   }
 
   const filter = (e : any) => {
