@@ -18,12 +18,17 @@ type RecipeModalProps = {
 
 const RecipeModal = (props:RecipeModalProps) => {
   const [isSaved, setIsSaved] = useState(false);
-  const [ingredients, setIngredients] = useState([])
+  const [ingredients, setIngredients] = useState([]);
+  const [isAdded, setIsAdded] = useState(false);
+  
 
   // access global saved state
   const savedGlobal = useAppSelector(selectSaved);
   // accesses to functions to update global state
   const dispatch = useAppDispatch();
+
+  // access global saved ingredients
+  const groceryGlobal:Ingredient[] = useAppSelector(selectGrocery);
 
   const [recipeInfo, setRecipeInfo] = useState({
     id: props.id,
@@ -86,17 +91,22 @@ const RecipeModal = (props:RecipeModalProps) => {
     }
   }
 
+  
 
   // Function to add ingredients to grocery list
   const handleAddToGrocery = () => {
 
+      const newItems:Ingredient[] = [];
       for (let i = 0; i < (ingredients.length-1); i++){
  
-        const newGrocItem:Ingredient = {name:ingredients[i]['name'], count:parseInt(ingredients[i]['amount']), unit:ingredients[i]['unit']};
-        console.log(newGrocItem);
-        dispatch(updateGrocery([...ingredients, newGrocItem]));
-      
+        const newGrocItem:Ingredient = {name:ingredients[i]['name'], count:ingredients[i]['amount'], unit:ingredients[i]['unit']};
+        newItems.push(newGrocItem);
+
       }
+      dispatch(updateGrocery([...groceryGlobal, ...newItems]));
+      setIsAdded(true);
+
+      
     
   }
 
@@ -132,7 +142,7 @@ const RecipeModal = (props:RecipeModalProps) => {
           Close
         </Button>
         <Button variant="primary" onClick={handleAddToGrocery}>
-          Add Ingredients to Grocery List
+          {isAdded ? "Ingredients Added!" : "Add Ingredients to Grocery List"}
         </Button>
       </Modal.Footer>
     </Modal>
