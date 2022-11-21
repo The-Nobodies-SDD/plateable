@@ -9,7 +9,7 @@ import { updatePantry, selectPantry, PantryIngredient } from '../features/pantry
 
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 
-import recipesList from './recipes'
+// import recipesList from './recipes'
 
 type RecipeModalProps = {
   id: string,

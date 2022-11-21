@@ -1,4 +1,4 @@
-export default [
+const recipesList =  [
   {
     "info": {
         "id": "525744",
@@ -57,3 +57,4 @@ export default [
 }
 ]
 
+export default recipesList;
