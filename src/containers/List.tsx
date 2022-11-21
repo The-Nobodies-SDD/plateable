@@ -157,12 +157,12 @@ const List = ({type}:ListProps) => {
       setDisplayIngredients(ingredients);
     }
 
+    console.log(displayIngredients);
   }
 
 
   return (
     // Structure of the resulting webpage is in the return statement:
-
     <Container>
       {/* Title Row */}
       <Row>

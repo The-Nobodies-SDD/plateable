@@ -6,6 +6,8 @@ import Stack from 'react-bootstrap/esm/Stack';
 
 import { updateSaved, selectSaved } from '../features/saved/savedSlice';
 import { useAppSelector, useAppDispatch } from '../app/hooks';
+import { updateGrocery, selectGrocery } from '../features/grocery/grocerySlice';
+import {Ingredient} from "../containers/List";
 
 
 type RecipeModalProps = {
@@ -84,6 +86,20 @@ const RecipeModal = (props:RecipeModalProps) => {
     }
   }
 
+
+  // Function to add ingredients to grocery list
+  const handleAddToGrocery = () => {
+
+      for (let i = 0; i < (ingredients.length-1); i++){
+ 
+        const newGrocItem:Ingredient = {name:ingredients[i]['name'], count:parseInt(ingredients[i]['amount']), unit:ingredients[i]['unit']};
+        console.log(newGrocItem);
+        dispatch(updateGrocery([...ingredients, newGrocItem]));
+      
+      }
+    
+  }
+
   return (
 
     <Modal show={props.show} onHide={() => props.setShow(false)}>
@@ -115,7 +131,7 @@ const RecipeModal = (props:RecipeModalProps) => {
         <Button variant="secondary" onClick={() => props.setShow(false)}>
           Close
         </Button>
-        <Button variant="primary" onClick={() => props.setShow(false)}>
+        <Button variant="primary" onClick={handleAddToGrocery}>
           Add Ingredients to Grocery List
         </Button>
       </Modal.Footer>

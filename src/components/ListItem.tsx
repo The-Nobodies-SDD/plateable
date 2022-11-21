@@ -49,7 +49,7 @@ const ListItem = (props:ListItemProps) => {
 	const handleNumChange = (amount:string) => {
 		setItemNum(Number(amount))
 	}
-
+	console.log(itemNum, itemUnit)
 	return (
 		<div>{/* Content will be drawn from db server*/}
 			<Container>
