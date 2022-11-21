@@ -165,7 +165,7 @@ const List = ({type}:ListProps) => {
       {/* Title Row */}
       <Row>
         <div style={{textAlign: 'center', paddingTop:100, paddingBottom:100}}>
-          <h1 >{type} Contents</h1>
+          <h1 >{type.charAt(0).toUpperCase() + type.slice(1)} Contents</h1>
         </div>
       </Row>
 
