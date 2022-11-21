@@ -76,7 +76,7 @@ const RecipeModal = (props:RecipeModalProps) => {
   const handleSaveItem = () => {
     if (isSaved) {
       const newItems = savedGlobal.filter(el => el.info.id !== props.id);
-      // dispatch(updateSaved(newItems));
+      dispatch(updateSaved(newItems));
       setIsSaved(false);
     } else {
       dispatch(updateSaved([...savedGlobal, {info:{...recipeInfo}}]));
