@@ -115,7 +115,7 @@ const RecipeModal = (props:RecipeModalProps) => {
       }
       dispatch(updateGrocery([...groceryGlobal, ...newItems]));
       setIsAdded(true);
- 
+  }
 
   const handleMakeRecipe = () => {
 
