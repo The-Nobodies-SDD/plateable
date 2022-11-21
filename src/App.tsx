@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createContext, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 
 import Login from './containers/Login';
@@ -22,27 +22,11 @@ export type RecipeProps = {
   }
 } 
 
-// global context that keeps track of all of a user's saved recipes
-type GlobalSaved = {
-  items: RecipeProps[],
-  setItems: (newItems: RecipeProps[]) => void
-}
-
-export const GlobalSavedContext = createContext<GlobalSaved>({
-  items: [],
-  setItems: () => {}
-})
-
-export const useGlobalSavedContext = () => useContext(GlobalSavedContext)
-
 function App() {
 
   // state to keep track if the user is logged in 
   const [isLoggedIn, setIsLoggedIn] = useState<Boolean>(false);
   
-  // state that keeps track of a user's saved recipes
-  const [items, setItems] = useState<RecipeProps[]>([])
-
   // used to determine current url and redirect users if not logged in
   const navigate = useNavigate();
   const path = useLocation();
@@ -85,8 +69,6 @@ function App() {
   return (
     <div className="App">
       {isLoggedIn ? <Nav logout={logoutHandler}/> : ''}
-      <GlobalSavedContext.Provider value={{items, setItems}}>
-
         {/* all of the possible routes for the application and which component will be rendered */}
         <Routes>
           <Route path="/" element={isLoggedIn ? <List type="pantry"/>: <Landing/>}/>
@@ -96,7 +78,6 @@ function App() {
           <Route path="/saved" element={<Saved />}/>
           <Route path="/login" element={<Login loginHandler={loginHandler}/>}/>
         </Routes>
-      </GlobalSavedContext.Provider>
     </div>
   );
 }

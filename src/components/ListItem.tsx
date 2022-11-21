@@ -12,7 +12,7 @@ type ListItemProps = {
   info: {
 		name: string,
 		unit: string | null,
-		num: number
+		count: number
 	}, 
 	handleDeleteItem: (name: string) => void
 }
@@ -31,7 +31,7 @@ const ListItem = (props:ListItemProps) => {
 	const [itemUnit, setItemUnit] = useState<string | null>(props.info.unit);
 	
 	// keeps track of the nums of units for this item
-	const [itemNum, setItemNum] = useState(props.info.num);
+	const [itemNum, setItemNum] = useState(props.info.count);
 
 	// current options for units
 	const units = ["count", "lbs", "oz", "fl. oz", "tbs", "tsp", "cups"];

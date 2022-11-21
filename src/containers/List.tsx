@@ -11,9 +11,17 @@ import Collapse from 'react-bootstrap/Collapse';
 import ListItem from '../components/ListItem';
 import AddItemForm from '../components/AddItemForm';
 
+import { useAppSelector, useAppDispatch } from '../app/hooks';
+import { updateGrocery, selectGrocery } from '../features/grocery/grocerySlice';
+import { updatePantry, selectPantry } from '../features/pantry/pantrySlice';
+
 
 type ListProps = {
   type: string
+}
+
+export type Ingredient = {
+  name: string, count: number, unit: string | null
 }
 
 /*
@@ -25,65 +33,97 @@ type ListProps = {
     List class also interacts with AddItemForm class and ListItem class
 */
 const List = ({type}:ListProps) => {
-  type Ingredient = {
-    name: string,
-    unit: string | null,
-    num: number
-  }
-  
+  const [ingredients, setIngredients] = useState<Ingredient[]>([])
+
+  // access the global state for both the grocery and pantry lists
+  const groceryGlobal:Ingredient[] = useAppSelector(selectGrocery);
+  const pantryGlobal:Ingredient[] = useAppSelector(selectPantry);
+
+  // accesses to functions to update global state
+  const dispatch = useAppDispatch();
+
   // Sample ingredients to be dispayed in demo
-  const [ingredients, setIngredients] = useState<Ingredient[]>([]);
-  const [displayIngredients, setDisplayIngredients] = useState<Ingredient[]>([]);
+  const [displayIngredients, setDisplayIngredients] = useState<Ingredient[]>(ingredients);
+
+  // calls the update function depending on which list is being viewed
+  // currently used for both adding and deleting
+  const handleUpdate = (list:Ingredient[]) => {
+    if (type === "pantry") {
+      dispatch(updatePantry(list))
+    } else {
+      dispatch(updateGrocery(list))
+    }
+  }
+
+
 
   useEffect(() => {
+    // initializes the lists
+    // first checks if the global state has already been loaded
+    if (type === "pantry") {
+      const sample:Ingredient[] = [{
+        name: "Sugar",
+        unit: "tablespoon",
+        count: 3
+      }, {
+        name: "Cream",
+        unit: "ounce",
+        count: 4
+      },
+      {
+        name: "Cream of Mushroom Soup",
+        unit: "can",
+        count: 5
+      }, {
+        name: "Olive Oil",
+        unit: "liters",
+        count: 2
+      },
+      {
+        name: "Garlic",
+        unit: "cloves",
+        count: 16
+      }];
 
-      if (type === "pantry") {
-          const sample = [{
-            name: "Sugar",
-            unit: "tablespoon",
-            num: 3
-          }, {
-            name: "Cream",
-            unit: "ounce",
-            num: 4
-          },
-          {
-            name: "Cream of Mushroom Soup",
-            unit: "can",
-            num: 5
-          }, {
-            name: "Olive Oil",
-            unit: "liters",
-            num: 2
-          },
-          {
-            name: "Garlic",
-            unit: "cloves",
-            num: 16
-          }];
-          setIngredients(sample);
-          setDisplayIngredients(sample);
-      }else {
-        const sample = [{
-          name: "Eggs",
-          unit: "count",
-          num: 12
-        }, {
-          name: "Flour",
-          unit: "cups",
-          num: 6
-        }, {
-          name: "Beef Broth",
-          unit: "cups",
-          num: 4
-        }]
-        setIngredients(sample);
-        setDisplayIngredients(sample);
+      // if the global state has not been loaded, update the value and set ingredients
+      if (pantryGlobal.length === 0 ) {
+        dispatch(updatePantry(sample));
+        setDisplayIngredients(sample)
+        setIngredients(sample)
+      } else {
+        setIngredients(pantryGlobal)
+        setDisplayIngredients(pantryGlobal)
       }
-    }, [type])
-    ;
 
+    } else {
+      const sample = [{
+        name: "Eggs",
+        unit: "count",
+        count: 12
+      }, {
+        name: "Flour",
+        unit: "cups",
+        count: 6
+      }, {
+        name: "Beef Broth",
+        unit: "cups",
+        count: 4
+      }]
 
+      // if the grocery global state has not loaded, update it
+      if (groceryGlobal.length === 0 ) {
+        dispatch(updateGrocery(sample));
+        setDisplayIngredients(sample)
+        setIngredients(sample)
+      } else {
+        setIngredients(groceryGlobal)
+        setDisplayIngredients(groceryGlobal)
+      }
+
+    }
+  }, [type, dispatch, pantryGlobal, groceryGlobal]);
+
+  
   const [showForm, setShowForm] = useState<boolean>(false)
   
   // Function for adding an existing item to list
@@ -92,15 +132,16 @@ const List = ({type}:ListProps) => {
       alert("Item already exists in list")
       return
     }
-    const newItem:Ingredient = {name:itemName, unit:itemUnit, num:itemNum}
-    setIngredients(prev => [...prev, newItem])
+
+    const newItem:Ingredient = {name:itemName, unit:itemUnit, count:itemNum}
+    handleUpdate([...ingredients, newItem])
     setDisplayIngredients(prev => [...prev, newItem])
   }
 
   // Function to handle deleting an item
   const handleDeleteItem = (name: string) => {
     const newIngredients = ingredients.filter(e => e.name !== name)
-    setIngredients(newIngredients)
+    handleUpdate(newIngredients)
     setDisplayIngredients(newIngredients)
   }
 
