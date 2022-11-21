@@ -2,12 +2,12 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '../../app/store'
 
 
-export type Ingredient = {
+export type PantryIngredient = {
   name: string, count: number, unit: string | null
 }
 
 interface PantryState {
-  ingredients: Ingredient[],
+  ingredients: PantryIngredient[],
 }
 
 const initialState: PantryState = {
@@ -18,7 +18,7 @@ export const pantrySlice = createSlice({
   name: 'pantry',
   initialState,
   reducers: {
-    updatePantry: (state, action: PayloadAction<Ingredient[]>) => {
+    updatePantry: (state, action: PayloadAction<PantryIngredient[]>) => {
       state.ingredients = action.payload
     }
   }

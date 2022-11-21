@@ -63,25 +63,25 @@ const List = ({type}:ListProps) => {
     if (type === "pantry") {
       const sample:Ingredient[] = [{
         name: "Sugar",
-        unit: "tablespoon",
+        unit: "tbs",
         count: 3
       }, {
         name: "Cream",
-        unit: "ounce",
+        unit: "cup",
         count: 4
       },
       {
         name: "Cream of Mushroom Soup",
-        unit: "can",
+        unit: "count",
         count: 5
       }, {
         name: "Olive Oil",
-        unit: "liters",
+        unit: "tsp",
         count: 2
       },
       {
         name: "Garlic",
-        unit: "cloves",
+        unit: "tsp",
         count: 16
       }];
 
