@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import groceryReducer from '../features/grocery/grocerySlice';
 import pantryReducer from '../features/pantry/pantrySlice';
+import savedReducer from '../features/saved/savedSlice';
 
 const store = configureStore({
   reducer: {
     grocery: groceryReducer,
-    pantry: pantryReducer
+    pantry: pantryReducer,
+    saved: savedReducer
   }
 })
 

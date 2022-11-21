@@ -1,9 +1,12 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 import Stack from 'react-bootstrap/esm/Stack';
-import {useGlobalSavedContext} from '../App';
+
+import { updateSaved, selectSaved } from '../features/saved/savedSlice';
+import { useAppSelector, useAppDispatch } from '../app/hooks';
+
 
 type RecipeModalProps = {
   id: string,
@@ -14,21 +17,25 @@ type RecipeModalProps = {
 const RecipeModal = (props:RecipeModalProps) => {
   const [isSaved, setIsSaved] = useState(false);
   const [ingredients, setIngredients] = useState([])
-  const {items, setItems} = useGlobalSavedContext()
+
+  // access global saved state
+  const savedGlobal = useAppSelector(selectSaved);
+  // accesses to functions to update global state
+  const dispatch = useAppDispatch();
 
   const [recipeInfo, setRecipeInfo] = useState({
     id: props.id,
-    sourceUrl: "",
-    ingredients: [],
     title: "",
     image: "",
+    sourceUrl: "",
+    ingredients: [],
     time: "",
     instructions: ""
   })
 
   // Functionality for Saving a recipe
   useEffect(() => {
-    const found = items.find(el => {
+    const found = savedGlobal.find(el => {
       return el.info.id === props.id
     })
 
@@ -63,16 +70,16 @@ const RecipeModal = (props:RecipeModalProps) => {
     }).catch(function (error) {
       console.error(error);
     });
-  }, [items, props.id])
+  }, [savedGlobal, props.id])
 
   // Functionality for moving recipe to saved recipe
   const handleSaveItem = () => {
     if (isSaved) {
-      const newItems = items.filter(el => el.info.id !== props.id);
-      setItems(newItems);
+      const newItems = savedGlobal.filter(el => el.info.id !== props.id);
+      // dispatch(updateSaved(newItems));
       setIsSaved(false);
     } else {
-      setItems([...items, {info:{...recipeInfo}}]);
+      dispatch(updateSaved([...savedGlobal, {info:{...recipeInfo}}]));
       setIsSaved(true);
     }
   }
