@@ -156,13 +156,11 @@ const List = ({type}:ListProps) => {
     } else{
       setDisplayIngredients(ingredients);
     }
-
   }
 
 
   return (
     // Structure of the resulting webpage is in the return statement:
-
     <Container>
       {/* Title Row */}
       <Row>

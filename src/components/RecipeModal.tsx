@@ -8,6 +8,8 @@ import { updateSaved, selectSaved, SavedItem, SavedIngredient } from '../feature
 import { updatePantry, selectPantry, PantryIngredient } from '../features/pantry/pantrySlice';
 
 import { useAppSelector, useAppDispatch } from '../app/hooks';
+import { updateGrocery, selectGrocery } from '../features/grocery/grocerySlice';
+import {Ingredient} from "../containers/List";
 
 // import recipesList from './recipes'
 
@@ -19,7 +21,9 @@ type RecipeModalProps = {
 
 const RecipeModal = (props:RecipeModalProps) => {
   const [isSaved, setIsSaved] = useState(false);
+  const [isAdded, setIsAdded] = useState(false);
   const [ingredients, setIngredients] = useState<SavedIngredient[]>([])
+
 
   // access global saved state
   const savedGlobal = useAppSelector(selectSaved);
@@ -27,6 +31,10 @@ const RecipeModal = (props:RecipeModalProps) => {
 
   // accesses to functions to update global state
   const dispatch = useAppDispatch();
+
+
+  // access global saved ingredients
+  const groceryGlobal:Ingredient[] = useAppSelector(selectGrocery);
 
   const [recipeInfo, setRecipeInfo] = useState<SavedItem>({
     info: {
@@ -93,6 +101,21 @@ const RecipeModal = (props:RecipeModalProps) => {
       setIsSaved(true);
     }
   }
+  
+
+  // Function to add ingredients to grocery list
+  const handleAddToGrocery = () => {
+
+      const newItems:Ingredient[] = [];
+      for (let i = 0; i < (ingredients.length-1); i++){
+ 
+        const newGrocItem:Ingredient = {name:ingredients[i]['name'], count:ingredients[i]['amount'], unit:ingredients[i]['unit']};
+        newItems.push(newGrocItem);
+
+      }
+      dispatch(updateGrocery([...groceryGlobal, ...newItems]));
+      setIsAdded(true);
+ 
 
   const handleMakeRecipe = () => {
 
@@ -126,6 +149,7 @@ const RecipeModal = (props:RecipeModalProps) => {
 
     dispatch(updatePantry(newPantryList))
     props.setShow(false)
+
   }
 
   return (
@@ -159,8 +183,8 @@ const RecipeModal = (props:RecipeModalProps) => {
         <Button variant="primary" onClick={handleMakeRecipe}>
           Make recipe
         </Button>
-        <Button variant="primary" onClick={() => props.setShow(false)}>
-          Add Ingredients to Grocery List
+        <Button variant="primary" onClick={handleAddToGrocery}>
+          {isAdded ? "Ingredients Added!" : "Add Ingredients to Grocery List"}
         </Button>
       </Modal.Footer>
     </Modal>
