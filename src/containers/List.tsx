@@ -156,8 +156,6 @@ const List = ({type}:ListProps) => {
     } else{
       setDisplayIngredients(ingredients);
     }
-
-    console.log(displayIngredients);
   }
 
 
