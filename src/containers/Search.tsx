@@ -5,7 +5,7 @@ import Stack from 'react-bootstrap/esm/Stack';
 import Recipes from './Recipes';
 import { RecipeProps } from '../App';
 import axios from 'axios';
-
+import { getApiKey, searchRecipes } from '../firebase';
 
 // page which allows users to search for and generate recipes
 const Search = () => {
@@ -28,7 +28,7 @@ const Search = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
   // handler for when a user searches for a recipe
-  const searchHandler = () => {
+  const searchHandler =  () => {
 
     // displays loading indicator
     setLoading(true)
@@ -39,34 +39,27 @@ const Search = () => {
       return
     }
 
-    // configuration options for api call
-    const options = {
-      method: 'GET',
-      url: 'https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/complexSearch',
-      params: {
-        query: searchRef.current.value,
+    searchRecipes({query:searchRef.current.value})
+      .then((res) => {
+        if (!typeof res.data) {
+          return
+        }
+
+        console.log(res.data)
+        // console.log(res.data[0])
         
-      },
-      headers: {
-        'X-RapidAPI-Key': process.env.REACT_APP_API_KEY,
-        'X-RapidAPI-Host': 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com'
-      }
-    };
-
-    // gets the data and sets recipe state to result
-    axios.request(options)
-      .then(res => {
-
         // reformats the data from the api to the format used around the application
-        const reshaped = res.data.results.map((el:RecipeReturnType) => (
-          {info: {...el}}
-        ))
+        // const reshaped = Object.keys(res.data).map((el) => (
+        //   {info: {...res.data[el]}}
+        // ))
 
-        setRecipes(reshaped)
-        setLoading(false)
+        
+  
+        // setRecipes(reshaped)
+        // setLoading(false)
       })
       .catch(err => {
-        console.error(err)
+        console.error(err);
       })
   } 
 
