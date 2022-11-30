@@ -17,8 +17,8 @@ const Login = (props:LoginProps) => {
         <Col>
           <Card className="mx-auto">
             <Card.Body>          
-              <Card.Title className='mb-5'>Please sign in</Card.Title>
-              <Button onClick={props.loginHandler}>Sign in with Google</Button>
+              <Card.Title className='mb-5' style={{textAlign:"center"}} >Please sign in</Card.Title>
+              <Button variant="light" onClick={props.loginHandler}><img src="https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-suite-everything-you-need-know-about-google-newest-0.png" alt="" style={{height:"1.5rem"}}/> Sign in with Google</Button>
             </Card.Body>
           </Card>
         </Col>
