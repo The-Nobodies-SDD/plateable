@@ -120,8 +120,9 @@ const Search = () => {
       <Form>
         <Stack direction="horizontal" gap={3} className="justify-content-center align-items-end">
           <div>
+            <br/><br/>
             <Form.Label htmlFor="searchInput">
-              Search for a recipe
+              <h2>Search for a recipe:</h2>
             </Form.Label>
             <Form.Control
               ref={searchRef}
@@ -130,12 +131,14 @@ const Search = () => {
             />
           </div>
           <Button variant="dark" onClick={searchHandler}>Search</Button>
+          <Button variant="dark" onClick={generateHandler}>Generate Recipes</Button>
         </Stack>
       </Form>
-   
+
+      {/* 
       <Form className="justify-content-center">
         <Button variant="dark" onClick={generateHandler}>Generate</Button>
-      </Form>
+      </Form>*/}
 
       {/* displays all recipe items */}
       <Recipes items={recipes}/>
