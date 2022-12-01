@@ -6,6 +6,9 @@ import Container from 'react-bootstrap/esm/Container';
 import Recipes from './Recipes';
 import { RecipeProps } from '../App';
 import axios from 'axios';
+import { useAppSelector } from '../app/hooks';
+import { selectPantry } from '../features/pantry/pantrySlice';
+import { Ingredient } from './List';
 
 
 
@@ -28,6 +31,8 @@ const Search = () => {
 
   // state used to display when a query is loading
   const [loading, setLoading] = useState<boolean>(false);
+
+  const pantryGlobal:Ingredient[] = useAppSelector(selectPantry);
 
   // handler for when a user searches for a recipe
   const searchHandler = () => {
@@ -81,11 +86,12 @@ const Search = () => {
     setLoading(true)
 
     // placeholder pantry list 
-    const ingredients = ["sugar", "cream", "garlic", "olive oil"]
+    const ingredients = pantryGlobal.map( el => {
+      return el.name
+    })
 
     // concatenates entire pantry list into one string
     const ingJoin = ingredients.join()
-
 
     // configures api call
     const options = {
