@@ -27,10 +27,12 @@ export type SavedItem = {
 
 interface Saved {
   saved: SavedItem[],
+  hasPulled: boolean
 }
 
 const initialState: Saved = {
   saved: [],
+  hasPulled: false
 }
 
 export const savedSlice = createSlice({
@@ -39,11 +41,16 @@ export const savedSlice = createSlice({
   reducers: {
     updateSaved: (state, action: PayloadAction<SavedItem[]>) => {
       state.saved = action.payload
+    },
+    updateHasPulled: (state, action: PayloadAction<boolean>) => {
+      state.hasPulled = action.payload
     }
   }
 })
 
-export const { updateSaved } = savedSlice.actions
+export const { updateSaved, updateHasPulled } = savedSlice.actions
 
 export const selectSaved = (state: RootState) => state.saved.saved
+export const selectHasPulled = (state: RootState) => state.saved.hasPulled
+
 export default savedSlice.reducer
