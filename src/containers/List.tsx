@@ -207,7 +207,7 @@ const List = ({type}:ListProps) => {
         <ListGroup>
           {
             displayIngredients.map( ingredient => (
-              <ListGroup.Item><ListItem info={ingredient} handleDeleteItem={handleDeleteItem}/></ListGroup.Item>
+              <ListGroup.Item key={ingredient.name}><ListItem info={ingredient} handleDeleteItem={handleDeleteItem}/></ListGroup.Item>
             ))
           }
         </ListGroup>

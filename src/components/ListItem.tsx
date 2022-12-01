@@ -63,7 +63,7 @@ const ListItem = (props:ListItemProps) => {
 							<Dropdown.Menu>
 								{
 									// loops through each item in the units array and displays it as a dropdown item
-									units.map( u => <Dropdown.Item eventKey={u}> {u} </Dropdown.Item>)
+									units.map( (u, i) => <Dropdown.Item key={i} eventKey={u}> {u} </Dropdown.Item>)
 								}
 							</Dropdown.Menu>
 						</Dropdown>
