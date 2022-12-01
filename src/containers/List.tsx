@@ -34,6 +34,7 @@ export type Ingredient = {
 */
 const List = ({type}:ListProps) => {
   const [ingredients, setIngredients] = useState<Ingredient[]>([])
+  const [showForm, setShowForm] = useState<boolean>(false)
 
   // access the global state for both the grocery and pantry lists
   const groceryGlobal:Ingredient[] = useAppSelector(selectGrocery);
@@ -54,8 +55,6 @@ const List = ({type}:ListProps) => {
       dispatch(updateGrocery(list))
     }
   }
-
-
 
   useEffect(() => {
     // initializes the lists
@@ -120,11 +119,13 @@ const List = ({type}:ListProps) => {
         setDisplayIngredients(groceryGlobal)
       }
 
+      
     }
+    setShowForm(false)
   }, [type, dispatch, pantryGlobal, groceryGlobal]);
 
   
-  const [showForm, setShowForm] = useState<boolean>(false)
+ 
   
   // Function for adding an existing item to list
   const handleAddItem = (itemName:string, itemNum:number, itemUnit:string | null) => {
