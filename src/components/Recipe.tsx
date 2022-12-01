@@ -25,9 +25,9 @@ const Recipe = ({info}:RecipeProps) => {
   const handleShow = () => setShow(true);
 
   return (
-    <>
+    <div className="recipe">
       <Button style={{color:"black", border:"None", background:"None", padding:"0"}} onClick={handleShow}>
-      <Card>
+      <Card className="recipe__card">
         <Card.Img className="recipe__img img-fluid" variant="top" src={info.image}/>
         <Card.Body>
           <Card.Title className="recipe__title text-truncate">
@@ -39,7 +39,7 @@ const Recipe = ({info}:RecipeProps) => {
 
 
       {show ? <RecipeModal id={info.id} show={show} setShow={setShow}/> : ''}
-    </>
+    </div>
   );
 }
 

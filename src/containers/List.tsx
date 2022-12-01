@@ -34,6 +34,7 @@ export type Ingredient = {
 */
 const List = ({type}:ListProps) => {
   const [ingredients, setIngredients] = useState<Ingredient[]>([])
+  const [showForm, setShowForm] = useState<boolean>(false)
 
   // access the global state for both the grocery and pantry lists
   const groceryGlobal:Ingredient[] = useAppSelector(selectGrocery);
@@ -55,22 +56,27 @@ const List = ({type}:ListProps) => {
     }
   }
 
-
-
   useEffect(() => {
     // initializes the lists
     // first checks if the global state has already been loaded
     if (type === "pantry") {
       const sample:Ingredient[] = [{
+        name: "Skin-on turkey breast",
+        unit: "lbs",
+        count: 8
+      }, {
         name: "Sugar",
         unit: "tbs",
+        count: 3
+      }, {
+        name: "Lemon",
+        unit: "count",
         count: 3
       }, {
         name: "Cream",
         unit: "cup",
         count: 4
-      },
-      {
+      }, {
         name: "Cream of Mushroom Soup",
         unit: "count",
         count: 5
@@ -78,11 +84,26 @@ const List = ({type}:ListProps) => {
         name: "Olive Oil",
         unit: "tsp",
         count: 2
-      },
-      {
-        name: "Garlic",
+      }, {
+        name: "Butter",
+        unit: "tbs",
+        count: 12
+      }, {
+        name: "Rosemary",
         unit: "tsp",
-        count: 16
+        count: 2
+      }, {
+        name: "Sage leaves",
+        unit: "tsp",
+        count: 2
+      }, {
+        name: "Thyme leaves",
+        unit: "tsp",
+        count: 20
+      }, {
+        name: "Garlic",
+        unit: "count",
+        count: 10
       }];
 
       // if the global state has not been loaded, update the value and set ingredients
@@ -120,11 +141,13 @@ const List = ({type}:ListProps) => {
         setDisplayIngredients(groceryGlobal)
       }
 
+      
     }
+    setShowForm(false)
   }, [type, dispatch, pantryGlobal, groceryGlobal]);
 
   
-  const [showForm, setShowForm] = useState<boolean>(false)
+ 
   
   // Function for adding an existing item to list
   const handleAddItem = (itemName:string, itemNum:number, itemUnit:string | null) => {
@@ -204,7 +227,7 @@ const List = ({type}:ListProps) => {
 
       {/* Row where the items are displayed. */}
       <Row>
-        <ListGroup>
+        <ListGroup style={{marginBottom: "3rem"}}>
           {
             displayIngredients.map( ingredient => (
               <ListGroup.Item key={ingredient.name}><ListItem info={ingredient} handleDeleteItem={handleDeleteItem}/></ListGroup.Item>
