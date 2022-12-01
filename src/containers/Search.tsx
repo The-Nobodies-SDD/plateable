@@ -2,10 +2,16 @@ import React, { useRef, useState } from 'react';
 import Button from 'react-bootstrap/esm/Button';
 import Form from 'react-bootstrap/Form';
 import Stack from 'react-bootstrap/esm/Stack';
+import Container from 'react-bootstrap/esm/Container';
 import Recipes from './Recipes';
 import { RecipeProps } from '../App';
 import axios from 'axios';
+import { useAppSelector } from '../app/hooks';
+import { selectPantry } from '../features/pantry/pantrySlice';
+import { Ingredient } from './List';
+
 import Spinner from 'react-bootstrap/Spinner';
+
 
 
 // page which allows users to search for and generate recipes
@@ -27,6 +33,8 @@ const Search = () => {
 
   // state used to display when a query is loading
   const [loading, setLoading] = useState<boolean>(false);
+
+  const pantryGlobal:Ingredient[] = useAppSelector(selectPantry);
 
   // handler for when a user searches for a recipe
   const searchHandler = () => {
@@ -54,6 +62,7 @@ const Search = () => {
       }
     };
 
+    
     // gets the data and sets recipe state to result
     axios.request(options)
       .then(res => {
@@ -65,6 +74,7 @@ const Search = () => {
 
         setRecipes(reshaped)
         setLoading(false)
+        console.log(reshaped)
       })
       .catch(err => {
         console.error(err)
@@ -78,11 +88,12 @@ const Search = () => {
     setLoading(true)
 
     // placeholder pantry list 
-    const ingredients = ["sugar", "cream", "garlic", "olive oil"]
+    const ingredients = pantryGlobal.map( el => {
+      return el.name
+    })
 
     // concatenates entire pantry list into one string
     const ingJoin = ingredients.join()
-
 
     // configures api call
     const options = {
@@ -117,8 +128,8 @@ const Search = () => {
   }
 
   return (
-    <Stack direction="vertical" style={{height: "90vh"}} className="justify-content-center" gap={3}>
-      <Form>
+    <Stack direction="vertical" style={{display: "block", marginTop: "2rem"}} className="justify-content-center" gap={3}>
+      <Form style={{height:"100px", marginBottom: "1rem"}}>
         <Stack direction="horizontal" gap={3} className="justify-content-center align-items-end">
           <Stack direction="horizontal" gap={3} className="justify-content-center align-items-end">
             <div>
@@ -144,7 +155,9 @@ const Search = () => {
       </Form>
 
       {/* displays all recipe items */}
-      <Recipes items={recipes}/>
+      <Container>
+        {recipes.length === 0 ? <p className="recipes__msg"><em>Nothing to show yet...</em></p> : <Recipes items={recipes}/>}
+      </Container>
 
       {/* displays loading indicator only when loading is true */}
       { loading ? <Spinner animation="border" style={{top:"0", bottom:"0", left: "0", right:"0", margin:"auto", textAlign:"center", zIndex: 10}}  />: ''}
