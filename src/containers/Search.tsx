@@ -2,9 +2,11 @@ import React, { useRef, useState } from 'react';
 import Button from 'react-bootstrap/esm/Button';
 import Form from 'react-bootstrap/Form';
 import Stack from 'react-bootstrap/esm/Stack';
+import Container from 'react-bootstrap/esm/Container';
 import Recipes from './Recipes';
 import { RecipeProps } from '../App';
 import axios from 'axios';
+
 
 
 // page which allows users to search for and generate recipes
@@ -53,6 +55,7 @@ const Search = () => {
       }
     };
 
+    
     // gets the data and sets recipe state to result
     axios.request(options)
       .then(res => {
@@ -64,6 +67,7 @@ const Search = () => {
 
         setRecipes(reshaped)
         setLoading(false)
+        console.log(reshaped)
       })
       .catch(err => {
         console.error(err)
@@ -116,8 +120,8 @@ const Search = () => {
   }
 
   return (
-    <Stack direction="vertical" style={{height: "90vh"}} className="justify-content-center" gap={3}>
-      <Form>
+    <Stack direction="vertical" style={{display: "block", marginTop: "2rem"}} className="justify-content-center" gap={3}>
+      <Form style={{height:"100px", marginBottom: "1rem"}}>
         <Stack direction="horizontal" gap={3} className="justify-content-center align-items-end">
           <Stack direction="horizontal" gap={3} className="justify-content-center align-items-end">
             <div>
@@ -143,7 +147,9 @@ const Search = () => {
       </Form>
 
       {/* displays all recipe items */}
-      <Recipes items={recipes}/>
+      <Container>
+        {recipes.length === 0 ? <p className="recipes__msg"><em>Nothing to show yet...</em></p> : <Recipes items={recipes}/>}
+      </Container>
 
       {/* displays loading indicator only when loading is true */}
       { loading ? <p>Loading</p> : ''}

@@ -14,19 +14,21 @@ type RecipesProps = {
 const Recipes = (props:RecipesProps) => {
 
   return (
-    <ListGroup horizontal >
-        <Row>
+    // <ListGroup horizontal style={{margin: "auto", maxWidth: "60vw"}}>
+      <div className="recipes">
+        {/* // <Row style={{maxWidth: "100vw"}}> */}
         {
           props.items.map( el => (
-            <Col xs='9' sm='6' md='5' lg='4' xl='3' key={el.info.id}>
-              <ListGroup.Item style={{border:"None"}}>
+            // <Col xs='9' sm='6' md='5' lg='4' xl='2' key={el.info.id}>
+              // <ListGroup.Item style={{border:"none"}}>
                 <Recipe info={{ id: el.info.id, title: el.info.title, image: el.info.image }} />
-              </ListGroup.Item>
-            </Col>
+              // </ListGroup.Item>
+            // </Col>
           ))
         }
-        </Row>
-      </ListGroup>
+        {/* </Row> */}
+      </div>
+      // </ListGroup>
   )
 }
 

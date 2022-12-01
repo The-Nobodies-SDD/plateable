@@ -62,15 +62,22 @@ const List = ({type}:ListProps) => {
     // first checks if the global state has already been loaded
     if (type === "pantry") {
       const sample:Ingredient[] = [{
+        name: "Skin-on turkey breast",
+        unit: "lbs",
+        count: 8
+      }, {
         name: "Sugar",
         unit: "tbs",
+        count: 3
+      }, {
+        name: "Lemon",
+        unit: "count",
         count: 3
       }, {
         name: "Cream",
         unit: "cup",
         count: 4
-      },
-      {
+      }, {
         name: "Cream of Mushroom Soup",
         unit: "count",
         count: 5
@@ -78,11 +85,26 @@ const List = ({type}:ListProps) => {
         name: "Olive Oil",
         unit: "tsp",
         count: 2
-      },
-      {
-        name: "Garlic",
+      }, {
+        name: "Butter",
+        unit: "tbs",
+        count: 12
+      }, {
+        name: "Rosemary",
         unit: "tsp",
-        count: 16
+        count: 2
+      }, {
+        name: "Sage leaves",
+        unit: "tsp",
+        count: 2
+      }, {
+        name: "Thyme leaves",
+        unit: "tsp",
+        count: 20
+      }, {
+        name: "Garlic",
+        unit: "count",
+        count: 10
       }];
 
       // if the global state has not been loaded, update the value and set ingredients
@@ -204,7 +226,7 @@ const List = ({type}:ListProps) => {
 
       {/* Row where the items are displayed. */}
       <Row>
-        <ListGroup>
+        <ListGroup style={{marginBottom: "3rem"}}>
           {
             displayIngredients.map( ingredient => (
               <ListGroup.Item><ListItem info={ingredient} handleDeleteItem={handleDeleteItem}/></ListGroup.Item>
