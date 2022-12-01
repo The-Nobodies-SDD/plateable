@@ -158,7 +158,7 @@ const RecipeModal = (props:RecipeModalProps) => {
       <Modal.Header closeButton>
         <Modal.Title>{recipeInfo.info.title}</Modal.Title>
       </Modal.Header>
-      <img src={recipeInfo.info.image} alt="" height="500rem"/>
+        <img className='recipeModal__img' src={recipeInfo.info.image} alt="" height="500rem"/>
       <Modal.Body>
         <div className='recipeModal__body'>
           <p>Estimated cooking time: {recipeInfo.info.time} minutes</p>
