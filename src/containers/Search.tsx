@@ -10,6 +10,8 @@ import { useAppSelector } from '../app/hooks';
 import { selectPantry } from '../features/pantry/pantrySlice';
 import { Ingredient } from './List';
 
+import Spinner from 'react-bootstrap/Spinner';
+
 
 
 // page which allows users to search for and generate recipes
@@ -158,7 +160,7 @@ const Search = () => {
       </Container>
 
       {/* displays loading indicator only when loading is true */}
-      { loading ? <p>Loading</p> : ''}
+      { loading ? <Spinner animation="border" style={{top:"0", bottom:"0", left: "0", right:"0", margin:"auto", textAlign:"center", zIndex: 10}}  />: ''}
     </Stack>
 
   )
