@@ -1,0 +1,9 @@
+.recipeModal {
+  &__img {
+    object-fit: cover;
+  }
+  &__body {
+    max-height: 30vh;
+    overflow-y: scroll;
+  }
+}
