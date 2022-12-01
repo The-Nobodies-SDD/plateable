@@ -5,6 +5,7 @@ import Stack from 'react-bootstrap/esm/Stack';
 import Recipes from './Recipes';
 import { RecipeProps } from '../App';
 import axios from 'axios';
+import Spinner from 'react-bootstrap/Spinner';
 
 
 // page which allows users to search for and generate recipes
@@ -146,7 +147,7 @@ const Search = () => {
       <Recipes items={recipes}/>
 
       {/* displays loading indicator only when loading is true */}
-      { loading ? <p>Loading</p> : ''}
+      { loading ? <Spinner animation="border" style={{top:"0", bottom:"0", left: "0", right:"0", margin:"auto", textAlign:"center", zIndex: 10}}  />: ''}
     </Stack>
 
   )
