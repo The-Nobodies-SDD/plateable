@@ -1,0 +1,15 @@
+.recipe {
+  &__img {
+    height: 18rem;
+    object-fit: cover !important;
+  }
+  &__title {
+    display: block;
+    justify-content: center;
+    height: 1.5rem;
+    max-width: 15rem;
+    max-inline-size: 15rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

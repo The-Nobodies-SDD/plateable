@@ -27,10 +27,10 @@ const Recipe = ({info}:RecipeProps) => {
   return (
     <>
       <Button style={{color:"black", border:"None", background:"None", padding:"0"}} onClick={handleShow}>
-      <Card >
-        <Card.Img className="img-fluid" variant="top" src={info.image} style={{ width: '18rem', height:'18rem'}}/>
+      <Card>
+        <Card.Img className="recipe__img img-fluid" variant="top" src={info.image}/>
         <Card.Body>
-          <Card.Title>
+          <Card.Title className="recipe__title text-truncate">
             {info.title} 
           </Card.Title>
         </Card.Body>
