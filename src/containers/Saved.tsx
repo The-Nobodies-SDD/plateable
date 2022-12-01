@@ -37,7 +37,7 @@ const Saved = () => {
       dispatch(updateSaved(newSaved))
       dispatch(updateHasPulled(true))
     }
-  }, [savedGlobal.length, dispatch])
+  }, [savedGlobal, hasPulledGlobal, dispatch])
 
 
   return (
