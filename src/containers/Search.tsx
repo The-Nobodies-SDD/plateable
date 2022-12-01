@@ -4,8 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Stack from 'react-bootstrap/esm/Stack';
 import Recipes from './Recipes';
 import { RecipeProps } from '../App';
-import axios from 'axios';
-import { getApiKey, searchRecipes } from '../firebase';
+import { searchRecipes, generateRecipes } from '../firebase';
 
 // page which allows users to search for and generate recipes
 const Search = () => {
@@ -45,18 +44,15 @@ const Search = () => {
           return
         }
 
-        console.log(res.data)
-        // console.log(res.data[0])
+        let data: any = res.data;
         
         // reformats the data from the api to the format used around the application
-        // const reshaped = Object.keys(res.data).map((el) => (
-        //   {info: {...res.data[el]}}
-        // ))
+        const reshaped = data.map((el:any) => (
+          {info: {...el}}
+        ))
 
-        
-  
-        // setRecipes(reshaped)
-        // setLoading(false)
+        setRecipes(reshaped)
+        setLoading(false)
       })
       .catch(err => {
         console.error(err);
@@ -76,27 +72,17 @@ const Search = () => {
     const ingJoin = ingredients.join()
 
 
-    // configures api call
-    const options = {
-      method: 'GET',
-      url: 'https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients',
-      params: {
-        ingredients: ingJoin,
-        number: '5',
-        ignorePantry: 'true',
-        ranking: '1'
-      },
-      headers: {
-        'X-RapidAPI-Key': process.env.REACT_APP_API_KEY,
-        'X-RapidAPI-Host': 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com'
-      }
-    };
-
-    // makes api call and sets result to state
-    axios.request(options)
+    generateRecipes({ingredients: ingJoin})
       .then(res => {
+
+        if (!typeof res.data) {
+          return
+        }
+
+        let data: any = res.data;
+
         // reformats the data from the api to the format used around the application
-        const reshaped = res.data.map((el:RecipeReturnType) => (
+        const reshaped = data.map((el:RecipeReturnType) => (
           {info: {...el}}
         ))
 
@@ -105,7 +91,7 @@ const Search = () => {
       })
       .catch(err => {
         console.error(err);
-      });
+      })
   }
 
   return (

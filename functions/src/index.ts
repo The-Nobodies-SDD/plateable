@@ -1,15 +1,7 @@
 import * as functions from "firebase-functions";
 import {defineSecret} from "firebase-functions/params";
-import axios from 'axios';
+import axios from "axios";
 const spoonApiKey = defineSecret("Spoonacular_API_Key");
-
-// format of data that is received from api
-// type RecipeReturnType = {
-//   id: string,
-//   title: string,
-//   image: string,
-//   missingIng: string[]
-// }
 
 // // Start writing Firebase Functions
 // // https://firebase.google.com/docs/functions/typescript
@@ -18,46 +10,57 @@ const spoonApiKey = defineSecret("Spoonacular_API_Key");
 //   return ("Hello from Firebase!");
 // });
 
-// export const getApiKey =
-//   functions.runWith({enforceAppCheck: false, secrets: [spoonApiKey]})
-//       .https.onCall((data, context) =>{
-//         if (context.app == undefined) {
-//           throw new functions.https.HttpsError(
-//               "failed-precondition",
-//               "The function must be called from an App Check verified app.");
-//         }
-//         return spoonApiKey.value();
-//       });
-
-
-// export const getApiKey =
-//   functions.runWith({secrets: [spoonApiKey]})
-//       .https.onCall((data, context) =>{
-//         const apiKey = spoonApiKey.value();
-      // });
-
-export const searchRecipes = 
+export const searchRecipes =
   functions.runWith({secrets: [spoonApiKey]})
       .https.onCall(async (data, context) =>{
         const apiKey = spoonApiKey.value();
-
+        const host = "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com";
         // configuration options for api call
         const options = {
-          method: 'GET',
-          url: 'https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/complexSearch',
+          method: "GET",
+          url: `https://${host}/recipes/complexSearch`,
           params: {
             query: data.query,
           },
           headers: {
             "accept-encoding": "gzip, deflate",
-            'X-RapidAPI-Key': apiKey,
-            'X-RapidAPI-Host': 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com'
-          }
+            "X-RapidAPI-Key": apiKey,
+            "X-RapidAPI-Host": host,
+          },
         };
 
         // gets the data and sets recipe state to result
         const result = await axios.request(options);
-        const results:[] = result.data.results
+        const results:[] = result.data.results;
         return results;
-        
+      });
+
+export const generateRecipes =
+  functions.runWith({secrets: [spoonApiKey]})
+      .https.onCall(async (data, context) =>{
+        const apiKey = spoonApiKey.value();
+
+        const host = "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com";
+        // configures api call
+        const options = {
+          method: "GET",
+          url: `https://${host}/recipes/findByIngredients`,
+          params: {
+            ingredients: data.ingredients,
+            number: "5",
+            ignorePantry: "true",
+            ranking: "1",
+          },
+          headers: {
+            "accept-encoding": "gzip, deflate",
+            "X-RapidAPI-Key": apiKey,
+            "X-RapidAPI-Host": host,
+          },
+        };
+
+        // gets the data and sets recipe state to result
+        const result = await axios.request(options);
+        const results:[] = result.data;
+
+        return results;
       });
