@@ -3,6 +3,11 @@ import firebase from "firebase/compat/app";
 import 'firebase/compat/auth';
 import "firebase/compat/firestore";
 
+import { getApp } from "firebase/app";
+import { getFunctions, httpsCallable } from "firebase/functions";
+
+
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -20,4 +25,11 @@ const firebaseConfig = {
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
+
+export const functions = getFunctions(getApp());
+// connectFunctionsEmulator(functions, "localhost", 5001);
+
+export const searchRecipes = httpsCallable(functions, 'searchRecipes');
+export const generateRecipes = httpsCallable(functions, 'generateRecipes');
+
 export default firebase;

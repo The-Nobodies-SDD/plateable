@@ -5,14 +5,12 @@ import Stack from 'react-bootstrap/esm/Stack';
 import Container from 'react-bootstrap/esm/Container';
 import Recipes from './Recipes';
 import { RecipeProps } from '../App';
-import axios from 'axios';
+import { searchRecipes, generateRecipes } from '../firebase';
 import { useAppSelector } from '../app/hooks';
 import { selectPantry } from '../features/pantry/pantrySlice';
 import { Ingredient } from './List';
 
 import Spinner from 'react-bootstrap/Spinner';
-
-
 
 // page which allows users to search for and generate recipes
 const Search = () => {
@@ -37,7 +35,7 @@ const Search = () => {
   const pantryGlobal:Ingredient[] = useAppSelector(selectPantry);
 
   // handler for when a user searches for a recipe
-  const searchHandler = () => {
+  const searchHandler =  () => {
 
     // displays loading indicator
     setLoading(true)
@@ -48,27 +46,17 @@ const Search = () => {
       return
     }
 
-    // configuration options for api call
-    const options = {
-      method: 'GET',
-      url: 'https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/complexSearch',
-      params: {
-        query: searchRef.current.value,
+    searchRecipes({query:searchRef.current.value})
+      .then((res) => {
+        if (!typeof res.data) {
+          return
+        }
+
+
+        let data: any = res.data;
         
-      },
-      headers: {
-        'X-RapidAPI-Key': process.env.REACT_APP_API_KEY,
-        'X-RapidAPI-Host': 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com'
-      }
-    };
-
-    
-    // gets the data and sets recipe state to result
-    axios.request(options)
-      .then(res => {
-
         // reformats the data from the api to the format used around the application
-        const reshaped = res.data.results.map((el:RecipeReturnType) => (
+        const reshaped = data.map((el:any) => (
           {info: {...el}}
         ))
 
@@ -77,7 +65,7 @@ const Search = () => {
         console.log(reshaped)
       })
       .catch(err => {
-        console.error(err)
+        console.error(err);
       })
   } 
 
@@ -95,27 +83,18 @@ const Search = () => {
     // concatenates entire pantry list into one string
     const ingJoin = ingredients.join()
 
-    // configures api call
-    const options = {
-      method: 'GET',
-      url: 'https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients',
-      params: {
-        ingredients: ingJoin,
-        number: '5',
-        ignorePantry: 'true',
-        ranking: '1'
-      },
-      headers: {
-        'X-RapidAPI-Key': process.env.REACT_APP_API_KEY,
-        'X-RapidAPI-Host': 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com'
-      }
-    };
 
-    // makes api call and sets result to state
-    axios.request(options)
+    generateRecipes({ingredients: ingJoin})
       .then(res => {
+
+        if (!typeof res.data) {
+          return
+        }
+
+        let data: any = res.data;
+
         // reformats the data from the api to the format used around the application
-        const reshaped = res.data.map((el:RecipeReturnType) => (
+        const reshaped = data.map((el:RecipeReturnType) => (
           {info: {...el}}
         ))
 
@@ -124,7 +103,7 @@ const Search = () => {
       })
       .catch(err => {
         console.error(err);
-      });
+      })
   }
 
   return (
