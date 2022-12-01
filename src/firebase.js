@@ -14,7 +14,7 @@ import { getFunctions, httpsCallable } from "firebase/functions";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: process.env.REACT_APP_FIREBASE_KEY,
+  apiKey: "AIzaSyBYuM1U-HiSv4yQw6UGc5PucwjeReIzj_k",
   authDomain: "plateable-f3a42.firebaseapp.com",
   projectId: "plateable-f3a42",
   storageBucket: "plateable-f3a42.appspot.com",
