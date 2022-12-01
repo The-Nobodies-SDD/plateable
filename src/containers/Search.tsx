@@ -116,25 +116,30 @@ const Search = () => {
   }
 
   return (
-    <Stack direction="vertical" className="col-md-5 mx-auto" gap={3}>
+    <Stack direction="vertical" style={{height: "90vh"}} className="justify-content-center" gap={3}>
       <Form>
         <Stack direction="horizontal" gap={3} className="justify-content-center align-items-end">
-          <div>
-            <Form.Label htmlFor="searchInput">
-              Search for a recipe
-            </Form.Label>
-            <Form.Control
-              ref={searchRef}
-              placeholder="Enter recipe name"
-              id="searchInput"
-            />
-          </div>
+          <Stack direction="horizontal" gap={3} className="justify-content-center align-items-end">
+            <div>
+              <Form.Label htmlFor="searchInput">
+                Search for a recipe:
+              </Form.Label>
+              <Form.Control
+                ref={searchRef}
+                placeholder="Enter recipe name"
+                id="searchInput"
+              />
+            </div>
           <Button variant="dark" onClick={searchHandler}>Search</Button>
+          </Stack>
+
+          <div>
+            <p style={{display: 'inline', marginRight: "20px"}}>
+              <strong>OR</strong> &nbsp;&nbsp;Generate a recipes based on the items in your pantry
+            </p>
+            <Button variant="dark" onClick={generateHandler}>Generate Recipes</Button>
+          </div>
         </Stack>
-      </Form>
-   
-      <Form className="justify-content-center">
-        <Button variant="dark" onClick={generateHandler}>Generate</Button>
       </Form>
 
       {/* displays all recipe items */}
