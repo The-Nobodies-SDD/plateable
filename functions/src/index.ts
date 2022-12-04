@@ -64,3 +64,28 @@ export const generateRecipes =
 
         return results;
       });
+
+
+export const getRecipeDetails =
+  functions.runWith({secrets: [spoonApiKey]})
+      .https.onCall(async (data, context) =>{
+        const apiKey = spoonApiKey.value();
+
+        const host = "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com";
+
+        // configures api call
+        const options = {
+          method: "GET",
+          url: `https://${host}/recipes/${data.id}/information`,
+          headers: {
+            "accept-encoding": "gzip, deflate",
+            "X-RapidAPI-Key": apiKey,
+            "X-RapidAPI-Host": host,
+          },
+        };
+
+        // gets the data and sets recipe state to result
+        const result = await axios.request(options);
+
+        return result.data;
+      });

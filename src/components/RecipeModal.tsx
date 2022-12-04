@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import axios from 'axios';
 import Stack from 'react-bootstrap/esm/Stack';
 
 import { updateSaved, selectSaved, SavedItem, SavedIngredient } from '../features/saved/savedSlice';
@@ -10,6 +9,8 @@ import { updatePantry, selectPantry, PantryIngredient } from '../features/pantry
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 import { updateGrocery, selectGrocery } from '../features/grocery/grocerySlice';
 import {Ingredient} from "../containers/List";
+
+import { getRecipeDetails } from '../firebase';
 
 // import recipesList from './recipes'
 
@@ -57,37 +58,30 @@ const RecipeModal = (props:RecipeModalProps) => {
     if (found) {
       setIsSaved(true)
     }
-    // gets all of the necessary information for the recipe
-    const options = {
-      method: 'GET',
-      url: `https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/${props.id}/information`,
-      headers: {
-        'X-RapidAPI-Key': process.env.REACT_APP_API_KEY,
-        'X-RapidAPI-Host': 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com'
-      }
-    };
     
-    axios.request(options).then(res => {
-      const data = res.data;
+    getRecipeDetails({id: props.id})
+      .then(res => {
+        if (!typeof res.data) {
+          return
+        }
 
-      setRecipeInfo({info:{
-        id: props.id,
-        sourceUrl: data.sourceUrl,
-        ingredients: data.extendedIngredients,
-        title: data.title,
-        image: data.image,
-        time: data.readyInMinutes,
-        instructions: data.instructions}
+        const data:any = res.data
+
+        setRecipeInfo({info:{
+          id: props.id,
+          sourceUrl: data.sourceUrl,
+          ingredients: data.extendedIngredients,
+          title: data.title,
+          image: data.image,
+          time: data.readyInMinutes,
+          instructions: data.instructions}
+        })
+  
+        setIngredients(data.extendedIngredients)
       })
-
-      setIngredients(data.extendedIngredients)
-
-    }).catch(function (error) {
-      console.error(error);
-    });
-
-    // setRecipeInfo(recipesList[0])
-    // setIngredients(recipesList[0].info.ingredients)
+      .catch(err => {
+        console.error(err)
+      })
   }, [savedGlobal, props.id])
 
   // Functionality for moving recipe to saved recipe
