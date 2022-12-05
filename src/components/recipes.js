@@ -54,17 +54,6 @@ const recipesList =  [
         "time": "",
         "instructions": ""
     }
-  },
-  {
-    "info": {
-      "id": "1684487",
-      "title": "Roasted Turkey Breast",
-      "image": "https://spoonacular.com/recipeImages/1684487-312x231.jpg",
-      "sourceUrl": "",
-      "ingredients": [],
-      "time": "",
-      "instructions": ""
-    }
   }
 ]
 
