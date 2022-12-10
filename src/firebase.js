@@ -4,7 +4,7 @@ import 'firebase/compat/auth';
 import "firebase/compat/firestore";
 
 import { getApp } from "firebase/app";
-import { getFunctions, httpsCallable, connectFunctionsEmulator } from "firebase/functions";
+import { getFunctions, httpsCallable } from "firebase/functions";
 
 
 
@@ -27,7 +27,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 export const functions = getFunctions(getApp());
-connectFunctionsEmulator(functions, "localhost", 5001);
+// connectFunctionsEmulator(functions, "localhost", 5001);
 
 export const searchRecipes = httpsCallable(functions, 'searchRecipes');
 export const generateRecipes = httpsCallable(functions, 'generateRecipes');
