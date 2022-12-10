@@ -1,5 +1,7 @@
 # plateable
 
+To view the final release of the application, go to https://plateable-f3a42.web.app/
+
 Final Release
 Installing npm:
 Visit the download page on the node website by clicking the link here: https://nodejs.org/en/download/
