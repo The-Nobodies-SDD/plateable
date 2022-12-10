@@ -10,7 +10,7 @@ import { useAppSelector, useAppDispatch } from '../app/hooks';
 import { updateGrocery, selectGrocery } from '../features/grocery/grocerySlice';
 import {Ingredient} from "../containers/List";
 
-import { getRecipeDetails } from '../firebase';
+import { getRecipeDetails, saveRecipe, unsaveRecipe } from '../firebase';
 
 // import recipesList from './recipes'
 
@@ -66,18 +66,22 @@ const RecipeModal = (props:RecipeModalProps) => {
         }
 
         const data:any = res.data
+        console.log(data.extendedIngredients)
+        const formattedIng = data.extendedIngredients.map( (el:any) => (
+          { name:el.name, unit:el.unit, count:el.amount }
+        ))
 
         setRecipeInfo({info:{
           id: props.id,
           sourceUrl: data.sourceUrl,
-          ingredients: data.extendedIngredients,
+          ingredients: formattedIng,
           title: data.title,
           image: data.image,
           time: data.readyInMinutes,
           instructions: data.instructions}
         })
   
-        setIngredients(data.extendedIngredients)
+        setIngredients(formattedIng)
       })
       .catch(err => {
         console.error(err)
@@ -87,10 +91,12 @@ const RecipeModal = (props:RecipeModalProps) => {
   // Functionality for moving recipe to saved recipe
   const handleSaveItem = () => {
     if (isSaved) {
+      unsaveRecipe({id: props.id});
       const newItems = savedGlobal.filter(el => el.info.id !== props.id);
       dispatch(updateSaved(newItems));
       setIsSaved(false);
     } else {
+      saveRecipe({info: recipeInfo.info})
       dispatch(updateSaved([...savedGlobal, {info:{...recipeInfo.info}}]));
       setIsSaved(true);
     }

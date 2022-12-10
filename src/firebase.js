@@ -32,5 +32,11 @@ export const functions = getFunctions(getApp());
 export const searchRecipes = httpsCallable(functions, 'searchRecipes');
 export const generateRecipes = httpsCallable(functions, 'generateRecipes');
 export const getRecipeDetails = httpsCallable(functions, 'getRecipeDetails');
+export const getSavedRecipes = httpsCallable(functions, 'getSavedRecipes');
+export const getList = httpsCallable(functions, 'getList');
+export const addToList = httpsCallable(functions, 'addToList');
+export const deleteFromList = httpsCallable(functions, 'deleteFromList');
+export const unsaveRecipe = httpsCallable(functions, 'unsaveRecipe');
+export const saveRecipe = httpsCallable(functions, 'saveRecipe');
 
 export default firebase;

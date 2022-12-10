@@ -13,6 +13,10 @@ import Search from './containers/Search';
 import firebase from './firebase';
 import { getAuth, signInWithPopup, GoogleAuthProvider, signOut} from 'firebase/auth';
 
+import { updatePantry, updatePantryPulled } from './features/pantry/pantrySlice';
+import { updateGrocery, updateGroceryPulled } from './features/grocery/grocerySlice';
+import { updateSaved, updateHasPulled } from './features/saved/savedSlice';
+
 // general structure of each recipe item
 export type RecipeProps = {
   info: {
@@ -39,6 +43,12 @@ function App() {
   const loginHandler = () => {
     signInWithPopup(auth, provider)
       .then(() => {
+        updatePantry([]);
+        updatePantryPulled(false);
+        updateGrocery([]);
+        updateGroceryPulled(false);
+        updateSaved([]);;
+        updateHasPulled(false)
         navigate("/")
       })
   }
@@ -47,7 +57,14 @@ function App() {
   const logoutHandler = () => {
     signOut(auth)
       .then(() => {
+        updatePantry([]);
+        updatePantryPulled(false);
+        updateGrocery([]);
+        updateGroceryPulled(false);
+        updateSaved([]);;
+        updateHasPulled(false)
         navigate("/login")
+        window.location.reload()
       })
   }
 

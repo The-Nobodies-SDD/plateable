@@ -8,10 +8,12 @@ export type PantryIngredient = {
 
 interface PantryState {
   ingredients: PantryIngredient[],
+  hasPulled: boolean
 }
 
 const initialState: PantryState = {
   ingredients: [],
+  hasPulled: false
 }
 
 export const pantrySlice = createSlice({
@@ -20,11 +22,16 @@ export const pantrySlice = createSlice({
   reducers: {
     updatePantry: (state, action: PayloadAction<PantryIngredient[]>) => {
       state.ingredients = action.payload
+    },
+    updatePantryPulled: (state, action: PayloadAction<boolean>) => {
+      state.hasPulled = action.payload
     }
   }
 })
 
-export const { updatePantry } = pantrySlice.actions
+export const { updatePantry, updatePantryPulled } = pantrySlice.actions
 
 export const selectPantry = (state: RootState) => state.pantry.ingredients
+export const selectPantryPulled = (state: RootState) => state.pantry.hasPulled
+
 export default pantrySlice.reducer
