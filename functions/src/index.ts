@@ -175,9 +175,7 @@ export const saveRecipe =
       });
     }
 
-    console.log(data);
-
-    newList.push(`recipes/${data.info.id}`);
+    newList.push(admin.firestore().doc("recipes/" + data.info.id));
     userRef.set({recipes: newList}, {merge: true});
     return;
   });
