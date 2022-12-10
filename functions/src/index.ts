@@ -1,7 +1,11 @@
 import * as functions from "firebase-functions";
 import {defineSecret} from "firebase-functions/params";
 import axios from "axios";
+
+import admin = require("firebase-admin")
+admin.initializeApp()
 const spoonApiKey = defineSecret("Spoonacular_API_Key");
+
 
 // // Start writing Firebase Functions
 // // https://firebase.google.com/docs/functions/typescript
@@ -89,3 +93,110 @@ export const getRecipeDetails =
 
         return result.data;
       });
+
+
+export const getSavedRecipes =
+  functions.https.onCall(async (data, context) =>{
+    
+    const userEmail:any = context.auth?.token.email;
+
+    const userInfo = await admin.firestore().collection('users').doc(userEmail).get();
+    const recipes = userInfo.data()?.recipes;
+
+   return Promise.all(recipes.map(async (el:any) => {
+      const recipe = await el.get();
+      const id = el["_path"].segments[1]
+      return {id: id, ...recipe.data()};
+    }))
+  });
+
+export const getList =
+  functions.https.onCall(async (data, context) =>{
+    
+    const userEmail:any = context.auth?.token.email;
+
+    const userRef = admin.firestore().collection('users').doc(userEmail)
+    const userInfo = await userRef.get();
+
+    if (userInfo && userInfo.exists) {
+      const userData:any = userInfo.data();
+      return userData[data.type];
+    } else {
+      userRef.set({
+        pantry: [],
+        grocery: [],
+        recipes: []
+      })
+      return
+    }
+  });
+
+export const addToList =
+  functions.https.onCall(async (data, context) =>{
+    
+    const userEmail:any = context.auth?.token.email;
+
+    const userRef = admin.firestore().collection('users').doc(userEmail);
+    const userInfo = await userRef.get();
+    const userData:any = userInfo.data();
+    const newList = userData[data.type];
+    newList.push(data.item);
+    userRef.set({ [data.type]: newList}, {merge: true});
+    return;
+  });
+
+export const deleteFromList =
+  functions.https.onCall(async (data, context) =>{
+    
+    const userEmail:any = context.auth?.token.email;
+
+    const userRef =  admin.firestore().collection('users').doc(userEmail)
+    const userInfo = await userRef.get()
+    const userData:any = userInfo.data();
+    const newList = userData[data.type].filter((el:any) => el.name !== data.name);
+
+    userRef.set({ [data.type]: newList}, {merge: true})
+    return;
+  });
+
+export const saveRecipe =
+  functions.https.onCall(async (data, context) =>{
+    
+    const userEmail:any = context.auth?.token.email;
+
+    const userRef = admin.firestore().collection('users').doc(userEmail);
+    const userInfo = await userRef.get();
+    const userData:any = userInfo.data();
+    const newList = userData.recipes;
+
+    const recipeRef = admin.firestore().collection('recipes').doc(data.info.id.toString())
+    const recipesInfo = await recipeRef.get()
+
+    console.log("HELLO THERE")
+
+    if (!recipesInfo.exists) {
+      recipeRef.set({
+        ...data.info, id: data.info.id.toString()
+      })
+    }
+
+    console.log(data)
+
+    newList.push(`recipes/${data.info.id}`)
+    userRef.set({ recipes: newList}, {merge: true});
+    return;
+  });
+
+export const unsaveRecipe =
+  functions.https.onCall(async (data, context) =>{
+    
+    const userEmail:any = context.auth?.token.email;
+
+    const userRef =  admin.firestore().collection('users').doc(userEmail)
+    const userInfo = await userRef.get()
+    const userData:any = userInfo.data();
+    const newList = userData.recipes.filter((el:any) => el.id !== data.id);
+
+    userRef.set({ recipes: newList}, {merge: true});
+    return;
+  });
